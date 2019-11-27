@@ -1,0 +1,5 @@
+PROJECT(SDL)
+SET(SRC_LIST main.c)
+add_executable(sdlTest main.c)
+add_subdirectory(test libtest)
+target_link_libraries(sdlTest testTzz)

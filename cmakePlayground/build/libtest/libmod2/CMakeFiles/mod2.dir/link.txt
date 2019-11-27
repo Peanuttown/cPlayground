@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmod2.a  CMakeFiles/mod2.dir/mod2.o
+/usr/bin/ranlib libmod2.a

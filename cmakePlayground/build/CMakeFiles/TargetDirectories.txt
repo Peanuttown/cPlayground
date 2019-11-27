@@ -1,0 +1,9 @@
+/home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles/rebuild_cache.dir
+/home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles/sdlTest.dir
+/home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles/edit_cache.dir
+/home/tzz/projects/cPlayground/cmakePlayground/build/libtest/CMakeFiles/rebuild_cache.dir
+/home/tzz/projects/cPlayground/cmakePlayground/build/libtest/CMakeFiles/testTzz.dir
+/home/tzz/projects/cPlayground/cmakePlayground/build/libtest/CMakeFiles/edit_cache.dir
+/home/tzz/projects/cPlayground/cmakePlayground/build/libtest/libmod2/CMakeFiles/rebuild_cache.dir
+/home/tzz/projects/cPlayground/cmakePlayground/build/libtest/libmod2/CMakeFiles/mod2.dir
+/home/tzz/projects/cPlayground/cmakePlayground/build/libtest/libmod2/CMakeFiles/edit_cache.dir

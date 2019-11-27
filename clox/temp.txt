@@ -1,0 +1,10 @@
+1+1
+*_
+
+number()
+binary() : 1+1
+	    *_
+
+*:prev
+_:cur
+
