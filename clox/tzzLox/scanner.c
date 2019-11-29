@@ -88,7 +88,7 @@ static bool isDigit(char c){
 }
 
 static bool isAlpha(char c){
-	return  (c>='a' && c<='a') || (c >= 'A' && c<= 'Z');
+	return  (c>='a' && c<='z') || (c >= 'A' && c<= 'Z');
 }
 
 static bool isAlphaNumeric(char c){
@@ -97,7 +97,7 @@ static bool isAlphaNumeric(char c){
 
 TokenType checkKeyWord(char* keyword,TokenType type){
 	int kwlen = strlen(keyword);//keyword length 
-	if (scanner.current-scanner.start == kwlen && memcmp(scanner.start,keyword,kwlen)){
+	if (((int)(scanner.current-scanner.start) == kwlen) && memcmp(scanner.start,keyword,kwlen-1)==0){
 		return type;
 	}
 	return TOKEN_IDENTIFIER;
@@ -167,6 +167,21 @@ static Token number(){
 	return makeToken(TOKEN_NUMBER);
 }
 
+static Token string(){
+	for(;!isEnd()&&peek()!='"';){
+		advance();
+	}
+	if (isEnd()){
+		fprintf(stderr,"scanner.c string() error, unterminated string\n");
+		exit(64);
+	}
+	advance();//consume " 
+	Token token =makeToken(TOKEN_STRING);
+	token.start++;
+	token.length -=2;
+	return token;
+}
+
 Token scanToken(){
 	skipWhitespace();
 	scanner.start = scanner.current;
@@ -197,6 +212,7 @@ Token scanToken(){
 		case ')':return makeToken(TOKEN_RIGHT_PAREN); 
 		case '{':return makeToken(TOKEN_LEFT_BRACE); 
 		case '}':return makeToken(TOKEN_RIGHT_BRACE); 
+		case '"':return string();
 		default:
 			 fprintf(stderr,"unexpect character\n");
 			 exit(64);

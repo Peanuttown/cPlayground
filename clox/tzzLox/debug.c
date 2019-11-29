@@ -20,7 +20,7 @@ static int constantInstruction(Chunk* chunk,char* name,int offset){
 	//get constant
 	int valuePos = chunk->code[offset+1];
 	Value value = chunk->constants.values[valuePos];
-	printf("%6d|%10s|%15d|%15g\n",offset,name,valuePos,value);;
+	printf("%6d|%10s|%15d|%15g\n",offset,name,valuePos,AS_NUMBER(value));;
 	return offset+2;
 }
 
@@ -33,6 +33,9 @@ int disassembaleInstruction(Chunk* chunk,int offset,uint8_t instruction){
 		case OP_MUL:return simpleInstruction("OP_MUL",offset);
 		case OP_DIV:return simpleInstruction("OP_DIV",offset);
 		case OP_NEGATE:return simpleInstruction("OP_NEGATE",offset);
+		case OP_NIL:return simpleInstruction("OP_NIL",offset);
+		case OP_FALSE:return simpleInstruction("OP_FALSE",offset);
+		case OP_TRUE:return simpleInstruction("OP_TRUE",offset);
 		default:{
 				fprintf(stderr,"undefined op_code %d\n",instruction);
 				exit(1);

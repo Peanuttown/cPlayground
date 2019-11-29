@@ -34,6 +34,8 @@ CMakeFiles/lox.dir/vm.c.o
  /home/tzz/projects/cPlayground/clox/tzzLox/chunk.h
  /home/tzz/projects/cPlayground/clox/tzzLox/common.h
  /home/tzz/projects/cPlayground/clox/tzzLox/debug.h
+ /home/tzz/projects/cPlayground/clox/tzzLox/memory.h
+ /home/tzz/projects/cPlayground/clox/tzzLox/object.h
  /home/tzz/projects/cPlayground/clox/tzzLox/parser.h
  /home/tzz/projects/cPlayground/clox/tzzLox/scanner.h
  /home/tzz/projects/cPlayground/clox/tzzLox/token.h

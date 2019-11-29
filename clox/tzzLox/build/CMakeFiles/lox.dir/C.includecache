@@ -60,6 +60,12 @@ vm.h
 stdlib.h
 -
 
+/home/tzz/projects/cPlayground/clox/tzzLox/object.h
+value.h
+/home/tzz/projects/cPlayground/clox/tzzLox/value.h
+memory.h
+/home/tzz/projects/cPlayground/clox/tzzLox/memory.h
+
 /home/tzz/projects/cPlayground/clox/tzzLox/parser.h
 token.h
 /home/tzz/projects/cPlayground/clox/tzzLox/token.h
@@ -89,6 +95,8 @@ memory.h
 /home/tzz/projects/cPlayground/clox/tzzLox/memory.h
 
 /home/tzz/projects/cPlayground/clox/tzzLox/value.h
+common.h
+/home/tzz/projects/cPlayground/clox/tzzLox/common.h
 
 /home/tzz/projects/cPlayground/clox/tzzLox/vm.c
 vm.h
@@ -111,6 +119,16 @@ debug.h
 /home/tzz/projects/cPlayground/clox/tzzLox/debug.h
 errno.h
 -
+value.h
+/home/tzz/projects/cPlayground/clox/tzzLox/value.h
+string.h
+-
+stdlib.h
+-
+value.h
+/home/tzz/projects/cPlayground/clox/tzzLox/value.h
+object.h
+/home/tzz/projects/cPlayground/clox/tzzLox/object.h
 
 /home/tzz/projects/cPlayground/clox/tzzLox/vm.h
 chunk.h

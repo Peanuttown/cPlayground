@@ -33,6 +33,8 @@ CMakeFiles/lox.dir/value.c.o: ../value.h
 CMakeFiles/lox.dir/vm.c.o: ../chunk.h
 CMakeFiles/lox.dir/vm.c.o: ../common.h
 CMakeFiles/lox.dir/vm.c.o: ../debug.h
+CMakeFiles/lox.dir/vm.c.o: ../memory.h
+CMakeFiles/lox.dir/vm.c.o: ../object.h
 CMakeFiles/lox.dir/vm.c.o: ../parser.h
 CMakeFiles/lox.dir/vm.c.o: ../scanner.h
 CMakeFiles/lox.dir/vm.c.o: ../token.h
