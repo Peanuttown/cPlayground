@@ -1,0 +1,3 @@
+/home/tzz/projects/cPlayground/clox/tzzNewLox/scanTest/build/CMakeFiles/rebuild_cache.dir
+/home/tzz/projects/cPlayground/clox/tzzNewLox/scanTest/build/CMakeFiles/scan.dir
+/home/tzz/projects/cPlayground/clox/tzzNewLox/scanTest/build/CMakeFiles/edit_cache.dir
