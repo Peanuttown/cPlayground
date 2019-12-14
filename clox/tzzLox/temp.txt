@@ -1,0 +1,23 @@
+a*a+b*a
+
+
+type exprRet struct{
+	f func()
+	expr Expr
+}
+
+func parsePrecend(){
+	expr := primary()
+	var 
+	switch (op){
+	case test:
+		ret:= parsePrecend(priority)
+		if ret.f == nil{
+			return newExpr(expr,op,ret.expr)
+		}else{
+			f(expr,ret.expr)
+
+		}
+	}
+
+}

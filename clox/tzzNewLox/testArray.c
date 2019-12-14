@@ -2,13 +2,19 @@
 #include <stdio.h>
 
 int main(){
+
+	uint16_t value = 0x111;
+	void* temp = (void*)(&value);
+	uint16_t v2 =0;
+	v2 = *((uint8_t*)(temp));
+	printf("%d\n",v2);
+	/*
 	Array ay ;
-	initArray(&ay,sizeof(int));
-	int value =8;
+	initArray(&ay,sizeof(uint16_t));
+	int value =0x231;
 	writeArray(&ay,&value);
-	printf("%d\n",*(int*)getArray(&ay,0));
-	value = 9;
-	writeArray(&ay,&value);
-	printf("%d\n",*(int*)getArray(&ay,1));
+	uint8_t* popValue = (uint8_t*)getArray(&ay,0);
+	printf("%d\n",*popValue);
 	return 0;
+	*/
 }

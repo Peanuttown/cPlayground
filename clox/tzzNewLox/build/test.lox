@@ -1,0 +1,5 @@
+var name="tzz";
+name =1;
+print name;
+name = "tzz2";
+print name;

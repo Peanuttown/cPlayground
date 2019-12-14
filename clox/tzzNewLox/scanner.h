@@ -25,7 +25,6 @@ void addToken();
 
 void printScanner();
 
-
 #endif
 
 

@@ -18,9 +18,13 @@ typedef struct{
 
 void initArray(Array* array,size_t elemSize);
 
-void writeArray(Array* array,void* elem);
+int writeArray(Array* array,void* elem);
+
+void writeArrayAt(Array* array,void *elem,int index);
 
 void* getArray(Array* array,int index);
+
+
 
 
 #endif

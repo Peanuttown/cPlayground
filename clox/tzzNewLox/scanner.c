@@ -29,7 +29,6 @@ static Token* getTokenByIndex(int index){
 }
 
 void addToken(TokenType type){
-	printf("addToken,scann.current:%d,scanner.start:%d\n",scanner.current,scanner.start);
 	Token token;
 	token.type=type;
 	token.line=scanner.line;
@@ -107,6 +106,13 @@ static void identifier(){
 	}else if(compareString("for")){
 		addToken(TOKEN_FOR);
 		return;
+
+	}else if (compareString("else")){
+		addToken(TOKEN_ELSE);
+		return;
+	}else if (compareString("return")){
+		addToken(TOKEN_RETURN);
+		return;
 	}else{
 		addToken(TOKEN_IDENTIFIER);
 		return;
@@ -147,7 +153,7 @@ static void string(){
 		advance();
 	}
 	if (isEnd()){
-		consume(')',"unterminated string");
+		consume('"',"unterminated string");
 	}
 	scanner.start++;
 	addToken(TOKEN_STRING);

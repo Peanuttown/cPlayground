@@ -1,0 +1,3 @@
+/home/tzz/projects/cPlayground/clox/tzzNewLox/tableTest/build/CMakeFiles/rebuild_cache.dir
+/home/tzz/projects/cPlayground/clox/tzzNewLox/tableTest/build/CMakeFiles/test.dir
+/home/tzz/projects/cPlayground/clox/tzzNewLox/tableTest/build/CMakeFiles/edit_cache.dir
