@@ -40,23 +40,33 @@ int disassembleOpCode(VM* vm,int offset,uint8_t opcode){
 					   return 2;
 				   }
 		case OP_DEFINE_GLOBAL:{
-					   printSimpleInstruction(offset,"defineGlobal");
-					   int pos = *(uint8_t*)getArray(&vm->code,offset+1);
-					   Value* posValue =(Value*)getArray(&vm->constants,pos);
-					   struct sObjString* variable = (ObjString*)posValue->obj;
-					   printf("%6d   key postion:%d , variable name:%s\n",offset+1,pos,variable->str);//print key pos;
-					   return 2;
+					      printSimpleInstruction(offset,"defineGlobal");
+					      int pos = *(uint8_t*)getArray(&vm->code,offset+1);
+					      Value* posValue =(Value*)getArray(&vm->constants,pos);
+					      struct sObjString* variable = (ObjString*)posValue->obj;
+					      printf("%6d   key postion:%d , variable name:%s\n",offset+1,pos,variable->str);//print key pos;
+					      return 2;
 				      }
 		case OP_SET_GLOBAL:{
 					   printSimpleInstruction(offset,"opSetGlobal");
 					   return 2;
-
 				   }
-		case OP_ASSIGN:{
-				       printSimpleInstruction(offset,"OP_ASSIGN");
-				       return 1;
-			       }
-
+		case OP_GET_LOCAL:{
+					  printSimpleInstruction(offset,"OP_GET_LOCAL");
+					   int pos = *(uint8_t*)getArray(&vm->code,offset+1);
+					   printf("%6d    stack slot %d\n",offset+1,pos);
+					  return 2;
+				  }
+		case OP_SET_LOCAL:{
+					  printSimpleInstruction(offset,"OP_SET_LOCAL");
+					   int pos = *(uint8_t*)getArray(&vm->code,offset+1);
+					   printf("%6d    stack slot %d\n",offset+1,pos);
+					  return 2;
+				  }
+		case OP_POP:{
+				    printSimpleInstruction(offset,"OP_POP");
+				    return 1;
+			    }
 		default:{
 				fprintf(stderr,"undefined opcode %d\n",opcode);
 				exit(64);

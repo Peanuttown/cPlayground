@@ -101,6 +101,8 @@ token.h
 /home/tzz/projects/cPlayground/clox/tzzNewLox/parser.h
 array.h
 /home/tzz/projects/cPlayground/clox/tzzNewLox/array.h
+token.h
+/home/tzz/projects/cPlayground/clox/tzzNewLox/token.h
 
 /home/tzz/projects/cPlayground/clox/tzzNewLox/scanner.c
 scanner.h

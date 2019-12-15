@@ -12,6 +12,9 @@ void initTable(Table* table){
 
 static Entry* findEntry(Table* table,ObjString* key,int capacity){
 	int index = key->hash % capacity ;
+	if (index < 0){
+		index =-index;
+	}
 	Entry* entry;
 	Entry* stampTone = NULL;
 	for (;;){

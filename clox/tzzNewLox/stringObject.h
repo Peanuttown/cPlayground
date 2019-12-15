@@ -7,7 +7,7 @@ struct sObjString{
 	Obj obj;
 	char* str;
 	int length;
-	int hash;
+	uint32_t hash;
 };
 
 void initsObjString(struct sObjString* objStr);

@@ -213,10 +213,26 @@ bool Scan(){
 					 string();
 					 break;
 				 }
+			case '(':{
+					 addToken(TOKEN_LEFT_PARENTHESE);
+					 break;
+				 }
+			case ')':{
+					 addToken(TOKEN_RIGHT_PARENTHESE);
+					 break;
+				 }
+			case '{':{
+					 addToken(TOKEN_LEFT_BRACE);
+					 break;
+				 }
+			case '}':{
+					 addToken(TOKEN_RIGHT_BRACE);
+					 break;
+				 }
 		default:
 			fprintf(stderr,"scan error at line %d,undefined char %c\n",scanner.line,c);
 			exit(64);
-		}
+		};
 	}
 	addToken(TOKEN_EOF);
 	return true;

@@ -99,7 +99,7 @@ static bool identifiersEqual(Token* a,Token* b){
 	if (a->length != b->length){
 		return false;
 	}
-
+	
 	return (memcmp(a->start,b->start,a->length)==0);
 
 }
@@ -130,7 +130,7 @@ static int parseVariable(){
 	Token* identifier = consume(TOKEN_IDENTIFIER,"expect identifer after variable declaration");
 
 	declareVariable();
-	if (current.scopeDepth > 0) return -1;
+	if (current.scopeDepth > 0) return 0;
 	int pos = identifierConstant(identifier);
 	return pos;
 }
@@ -144,17 +144,9 @@ static void defineVariable(int pos){
 static void decVariable(){
 	//consume var
 	advance();
-	Token* identifier = peek();
 	int pos = parseVariable();
 	if (match(TOKEN_EQUAL)){
 		expression();
-		for (int i=current.localCount-1;i>=0;i--){
-			if (identifiersEqual(&current.locals[i].name,identifier)){
-				emitByte(OP_SET_LOCAL);
-				emitByte(i);
-				break;
-			}
-		}
 	}else{
 		emitByte(OP_NIL);
 	}
@@ -170,6 +162,7 @@ static void declaration(){
 				       break;
 			       }
 		default:{
+				printf("statment %d,line%d\n",token->type,token->line);
 				statement();
 				break;
 			}
@@ -206,6 +199,7 @@ uint8_t identifierConstant(Token *token){
 
 static void primary(){
 	Token *token = peek();
+	printf("here :%d\n",token->type);
 	switch (token->type){
 		case TOKEN_NUMBER:{
 					  //todo value
@@ -363,30 +357,25 @@ static int resolveLocal(Token* name){
 }
 
 void assignment(){
-	if ((peek()->type)==TOKEN_IDENTIFIER){
-		equality();
-		//if is get
-		int arg = resolveLocal(previous());
-		if (arg != -1){//local
-			((uint8_t*)parser.code.values)[parser.code.count-1] = arg;
-			((uint8_t*)parser.code.values)[parser.code.count-2] = OP_GET_LOCAL;
+	equality();
+	//if is get
+	int arg = resolveLocal(previous());
+	printf("arg %d\n",arg);
+	if (arg != -1){//local
+		((uint8_t*)parser.code.values)[parser.code.count-1] = arg;
+	}
+	for (;match(TOKEN_EQUAL);){
+		//recod 
+		int globalPos = ((uint8_t*)parser.code.values)[parser.code.count-1];
+		parser.code.count -=2;
+		assignment();
+		if (arg != -1){
+			emitByte(OP_SET_LOCAL);
+			emitByte(arg);
+		}else{
+			emitByte(OP_SET_GLOBAL);
+			emitByte(globalPos);
 		}
-		for (;match(TOKEN_EQUAL);){
-			//recod 
-			int globalPos = ((uint8_t*)parser.code.values)[parser.code.count-1];
-			parser.code.count -=2;
-			assignment();
-			if (arg != -1){
-				emitByte(OP_SET_LOCAL);
-				emitByte(arg);
-			}else{
-				emitByte(OP_SET_GLOBAL);
-				emitByte(globalPos);
-			}
-		}
-	}else{
-		equality();
-
 	}
 }
 
@@ -445,9 +434,11 @@ static void stmtIf(){
 
 void stmtPrint(){
 	advance();//consume print
+	printf("stmtPrint:%d\n",peek()->type);
 	expression();
 	consume(TOKEN_SEMICOLON,"expect ; after statement");
 	emitByte(OP_PRINT);
+	printf("stmtPrint over ")
 }
 
 void stmtExpr(){
@@ -466,6 +457,7 @@ void statement(){
 	Token* token = peek();
 	switch (token->type){
 		case TOKEN_PRINT :{
+					  printf("parse print\n");
 					  stmtPrint();
 					  break;
 				  }
@@ -498,8 +490,9 @@ void parse(){
 }
 
 static void block(){
+	printf("start block\n");
 	for (;!isEnd()&& peek()->type != TOKEN_RIGHT_BRACE;){
 		declaration();
 	}
-	consume(TOKEN_RIGHT_BRACE,"expect '}' after block\n");
+	consume(TOKEN_RIGHT_PARENTHESE,"expect '}' after block\n");
 }

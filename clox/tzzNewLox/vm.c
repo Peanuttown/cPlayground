@@ -77,20 +77,30 @@ InterpretResult interpret(){
 						      TableSet(&vm.global,key,pop(&vm.stack));
 						      break;
 					      }
-			case OP_ASSIGN:{
-					       Value* value= pop(&vm.stack);
-					       Value*  variable=pop(&vm.stack);
-					       ObjString* key = (ObjString*)(variable->obj);
-					       TableSet(&vm.global,key,value);
-					       break;
-				       }
 			case OP_SET_GLOBAL:{
 						   int pos = advance();
 						   Value* variable = getConstantByIndex(pos);
-						   //printf("set global %s",((ObjString*)variable->obj)->str);
-						   push(&vm.stack,variable);
+						   ObjString* key = (ObjString*)(variable->obj);
+						   Value* value =pop(&vm.stack);
+						   TableSet(&vm.global,key,value);
+						   push(&vm.stack,value);
 						   break;
 					   }
+			case OP_POP:{
+					    pop(&vm.stack);
+					    break;
+				    }
+
+			case OP_SET_LOCAL:{
+						  int pos =advance();
+						  vm.stack.Values[pos] = vm.stack.Values[vm.stack.top-1];
+						  break;
+					  }
+			case OP_GET_LOCAL:{
+						  int pos =advance();
+						  push(&vm.stack,&vm.stack.Values[pos]);
+						  break;
+					  }
 			default:{
 					printf("undefined opcode %d\n",code);
 					return INTERPRETER_RUNTIME_ERR;

@@ -17,7 +17,6 @@ typedef enum{
 	OP_JUMP,
 	OP_POP,
 	OP_PRINT,
-	OP_ASSIGN,
 	OP_EQUAL_EQUAL,
 	OP_BANG_EQUAL,
 	OP_LESS,
@@ -28,6 +27,8 @@ typedef enum{
 	OP_NIL,
 	OP_DEFINE_GLOBAL,
 	OP_SET_GLOBAL,
+	OP_SET_LOCAL,
+	OP_GET_LOCAL,
 }OpCode;
 
 #endif

@@ -5,7 +5,7 @@
 #include "vm.h"
 #include <stdio.h>
 
-static int hash(char* key,int length){
+static uint32_t hash(char* key,int length){
 	uint32_t hash = 2166136261u;
 
 	for (int i = 0; i < length; i++) {                     
@@ -20,11 +20,14 @@ void initsObjString(struct sObjString* objStr){
 	objStr->obj.type = OBJ_STRING;
 }
 
-struct sObjString* tableFindString(Table* table,char* chars,int length,int hash){
+struct sObjString* tableFindString(Table* table,char* chars,int length,uint32_t hash){
 	if (table->count ==0){
 		return NULL;
 	}
 	int index = hash % table->capacity;
+	if (index < 0){
+		index = -index;
+	}
 	for(;;){
 		Entry entry = table->entry[index];
 		if (entry.key == NULL){
