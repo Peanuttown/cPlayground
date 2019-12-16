@@ -24,6 +24,7 @@ typedef enum{
 
 typedef enum{
 	OBJ_STRING,
+	OBJ_FUNC,
 }ObjType;
 
 typedef struct sObjString ObjString;
@@ -31,6 +32,7 @@ typedef struct sObjString ObjString;
 typedef struct{
 	ObjType type;
 }Obj;
+
 
 
 typedef struct{
