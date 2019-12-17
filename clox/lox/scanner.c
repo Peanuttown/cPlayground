@@ -11,7 +11,7 @@ void initScanner(char* source){
 }
 
 static bool isEnd(){
-	return scanner.current == '\0';
+	return *scanner.current == '\0';
 }
 
 static Token makeToken(TokenType type){

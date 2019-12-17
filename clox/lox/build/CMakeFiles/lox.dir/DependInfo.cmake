@@ -5,9 +5,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/tzz/projects/cPlayground/clox/lox/chunk.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/chunk.c.o"
+  "/home/tzz/projects/cPlayground/clox/lox/compiler.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/compiler.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/debug.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/debug.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/main.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/main.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/memory.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/memory.c.o"
+  "/home/tzz/projects/cPlayground/clox/lox/scanner.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/scanner.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/value.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/value.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/vm.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/vm.c.o"
   )

@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/lox.dir/memory.c.o"
   "CMakeFiles/lox.dir/value.c.o"
   "CMakeFiles/lox.dir/vm.c.o"
+  "CMakeFiles/lox.dir/compiler.c.o"
+  "CMakeFiles/lox.dir/scanner.c.o"
   "lox.pdb"
   "lox"
 )

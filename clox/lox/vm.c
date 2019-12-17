@@ -1,6 +1,7 @@
 #include "vm.h"
 #include "chunk.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "debug.h"
 #include "compiler.h"
 
@@ -50,7 +51,6 @@ static InterpretResult run(){
 		uint8_t instruction;
 		switch(instruction = READ_BYTE()){
 			case OP_RETURN:{
-					       printValue(pop());
 					       return INTERPRET_OK;
 				       }
 			case OP_CONSTANT:{
@@ -58,8 +58,13 @@ static InterpretResult run(){
 						 push(value);
 						 break;
 					 }
+			case OP_ADD:{
+					    printValue(pop()+pop());
+					    break;
+				    }
 			default:{
-
+					fprintf(stderr,"interpret error ,unexpected instruction :%d",instruction);
+					exit(64);
 				}
 		}
 	}
@@ -69,6 +74,16 @@ static InterpretResult run(){
 }
 
 InterpretResult interpret(char* source){
-	compile(source);
-	return INTERPRET_OK;
+	Chunk chunk;
+	initChunk(&chunk);
+	if (!compile(source,&chunk)){
+		freeChunk(&chunk);
+		return INTERPRET_COMPILE_ERR;
+	}
+
+	vm.chunk = &chunk;
+	vm.ip = vm.chunk->code;
+	InterpretResult result = run();
+	freeChunk(&chunk);
+	return result;
 }

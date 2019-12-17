@@ -1,6 +1,7 @@
 #ifndef lox_common_h
 #define lox_common_h
 
+#define DEBUG_PRINT_CODE
 #define DEBUG_TRACE_EXECUTION
 
 #include <stdbool.h>

@@ -39,9 +39,12 @@ int disassembleInstruction(Chunk* chunk,int offset){
 		case OP_CONSTANT:{
 					 return constantInstruction("OP_CONSTANT",chunk,offset);
 				 }
+		case OP_ADD:{
+					 return printSimpleInstruction("OP_ADD",offset);
+				 }
 		default:{
-				printf("unknown instruction type %d\n",code);
-				return offset+1;
+				printf("debug error : unknown instruction type %d\n",code);
+				exit(64);
 			}
 	}
 }

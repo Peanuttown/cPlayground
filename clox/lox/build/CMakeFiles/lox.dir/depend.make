@@ -7,6 +7,14 @@ CMakeFiles/lox.dir/chunk.c.o: ../common.h
 CMakeFiles/lox.dir/chunk.c.o: ../memory.h
 CMakeFiles/lox.dir/chunk.c.o: ../value.h
 
+CMakeFiles/lox.dir/compiler.c.o: ../chunk.h
+CMakeFiles/lox.dir/compiler.c.o: ../common.h
+CMakeFiles/lox.dir/compiler.c.o: ../compiler.c
+CMakeFiles/lox.dir/compiler.c.o: ../compiler.h
+CMakeFiles/lox.dir/compiler.c.o: ../debug.h
+CMakeFiles/lox.dir/compiler.c.o: ../scanner.h
+CMakeFiles/lox.dir/compiler.c.o: ../value.h
+
 CMakeFiles/lox.dir/debug.c.o: ../chunk.h
 CMakeFiles/lox.dir/debug.c.o: ../common.h
 CMakeFiles/lox.dir/debug.c.o: ../debug.c
@@ -24,6 +32,10 @@ CMakeFiles/lox.dir/memory.c.o: ../common.h
 CMakeFiles/lox.dir/memory.c.o: ../memory.c
 CMakeFiles/lox.dir/memory.c.o: ../memory.h
 
+CMakeFiles/lox.dir/scanner.c.o: ../common.h
+CMakeFiles/lox.dir/scanner.c.o: ../scanner.c
+CMakeFiles/lox.dir/scanner.c.o: ../scanner.h
+
 CMakeFiles/lox.dir/value.c.o: ../common.h
 CMakeFiles/lox.dir/value.c.o: ../memory.h
 CMakeFiles/lox.dir/value.c.o: ../value.c
@@ -31,6 +43,7 @@ CMakeFiles/lox.dir/value.c.o: ../value.h
 
 CMakeFiles/lox.dir/vm.c.o: ../chunk.h
 CMakeFiles/lox.dir/vm.c.o: ../common.h
+CMakeFiles/lox.dir/vm.c.o: ../compiler.h
 CMakeFiles/lox.dir/vm.c.o: ../debug.h
 CMakeFiles/lox.dir/vm.c.o: ../value.h
 CMakeFiles/lox.dir/vm.c.o: ../vm.c
