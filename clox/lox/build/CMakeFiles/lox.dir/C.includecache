@@ -59,6 +59,8 @@ stdio.h
 -
 value.h
 /home/tzz/projects/cPlayground/clox/lox/value.h
+stdlib.h
+-
 
 /home/tzz/projects/cPlayground/clox/lox/debug.h
 chunk.h
@@ -109,6 +111,8 @@ stdio.h
 -
 
 /home/tzz/projects/cPlayground/clox/lox/value.h
+common.h
+/home/tzz/projects/cPlayground/clox/lox/common.h
 
 /home/tzz/projects/cPlayground/clox/lox/vm.c
 vm.h
@@ -123,6 +127,8 @@ debug.h
 /home/tzz/projects/cPlayground/clox/lox/debug.h
 compiler.h
 /home/tzz/projects/cPlayground/clox/lox/compiler.h
+stdarg.h
+-
 
 /home/tzz/projects/cPlayground/clox/lox/vm.h
 chunk.h

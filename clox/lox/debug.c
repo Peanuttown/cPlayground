@@ -1,6 +1,7 @@
 #include "debug.h"
 #include <stdio.h>
 #include "value.h"
+#include <stdlib.h>
 
 static int printSimpleInstruction(char* name,int offset){
 	printf("%s\n",name);
@@ -42,6 +43,36 @@ int disassembleInstruction(Chunk* chunk,int offset){
 		case OP_ADD:{
 					 return printSimpleInstruction("OP_ADD",offset);
 				 }
+		case OP_MINUS:{
+					 return printSimpleInstruction("OP_MINUS",offset);
+				 }
+		case OP_DIVIDE:{
+					 return printSimpleInstruction("OP_DIVIDE",offset);
+				 }
+		case OP_MULTIPLY:{
+					 return printSimpleInstruction("OP_MULTIPLY",offset);
+				 }
+		case OP_FALSE:{
+					 return printSimpleInstruction("OP_FALSE",offset);
+			      }
+		case OP_TRUE:{
+					 return printSimpleInstruction("OP_TRUE",offset);
+			     }
+		case OP_NIL:{
+					 return printSimpleInstruction("OP_NIL",offset);
+			    }
+		case OP_NOT:{
+					 return printSimpleInstruction("OP_NOT",offset);
+			    }
+		case OP_EQUAL:{
+					 return printSimpleInstruction("OP_EQUAL",offset);
+			    }
+		case OP_GREATER:{
+					 return printSimpleInstruction("OP_GREATER",offset);
+			    }
+		case OP_LESS:{
+					 return printSimpleInstruction("OP_LESS",offset);
+			    }
 		default:{
 				printf("debug error : unknown instruction type %d\n",code);
 				exit(64);
