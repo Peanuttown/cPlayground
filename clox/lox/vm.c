@@ -8,6 +8,7 @@
 #include "object.h"
 #include "memory.h"
 #include "string.h"
+#include "table.h"
 
 VM vm;
 
@@ -29,6 +30,7 @@ Value pop(){
 void initVM(){
 	resetStack();
 	vm.objects = NULL;
+	initTable(&vm.strings);
 }
 
 
@@ -60,6 +62,7 @@ static void freeObjects(){
 
 void freeVM(){
 	freeObjects();
+	freeTable(&vm.strings);
 }
 
 

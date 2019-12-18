@@ -43,6 +43,10 @@ string.h
 /home/tzz/projects/cPlayground/clox/lox/string.h
 chunk.h
 /home/tzz/projects/cPlayground/clox/lox/chunk.h
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
+value.h
+/home/tzz/projects/cPlayground/clox/lox/value.h
 debug.h
 /home/tzz/projects/cPlayground/clox/lox/debug.h
 
@@ -90,6 +94,30 @@ stdlib.h
 common.h
 /home/tzz/projects/cPlayground/clox/lox/common.h
 
+/home/tzz/projects/cPlayground/clox/lox/object.c
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
+stdlib.h
+-
+memory.h
+/home/tzz/projects/cPlayground/clox/lox/memory.h
+value.h
+/home/tzz/projects/cPlayground/clox/lox/value.h
+string.h
+-
+vm.h
+/home/tzz/projects/cPlayground/clox/lox/vm.h
+math.h
+/home/tzz/projects/cPlayground/clox/lox/math.h
+table.h
+/home/tzz/projects/cPlayground/clox/lox/table.h
+
+/home/tzz/projects/cPlayground/clox/lox/object.h
+common.h
+/home/tzz/projects/cPlayground/clox/lox/common.h
+value.h
+/home/tzz/projects/cPlayground/clox/lox/value.h
+
 /home/tzz/projects/cPlayground/clox/lox/scanner.c
 scanner.h
 /home/tzz/projects/cPlayground/clox/lox/scanner.h
@@ -100,6 +128,22 @@ string.h
 
 /home/tzz/projects/cPlayground/clox/lox/scanner.h
 
+/home/tzz/projects/cPlayground/clox/lox/table.c
+table.h
+/home/tzz/projects/cPlayground/clox/lox/table.h
+common.h
+/home/tzz/projects/cPlayground/clox/lox/common.h
+memory.h
+/home/tzz/projects/cPlayground/clox/lox/memory.h
+string.h
+/home/tzz/projects/cPlayground/clox/lox/string.h
+
+/home/tzz/projects/cPlayground/clox/lox/table.h
+value.h
+/home/tzz/projects/cPlayground/clox/lox/value.h
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
+
 /home/tzz/projects/cPlayground/clox/lox/value.c
 value.h
 /home/tzz/projects/cPlayground/clox/lox/value.h
@@ -108,6 +152,12 @@ common.h
 memory.h
 /home/tzz/projects/cPlayground/clox/lox/memory.h
 stdio.h
+-
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
+stdlib.h
+-
+string.h
 -
 
 /home/tzz/projects/cPlayground/clox/lox/value.h
@@ -129,10 +179,22 @@ compiler.h
 /home/tzz/projects/cPlayground/clox/lox/compiler.h
 stdarg.h
 -
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
+memory.h
+/home/tzz/projects/cPlayground/clox/lox/memory.h
+string.h
+/home/tzz/projects/cPlayground/clox/lox/string.h
+table.h
+/home/tzz/projects/cPlayground/clox/lox/table.h
 
 /home/tzz/projects/cPlayground/clox/lox/vm.h
 chunk.h
 /home/tzz/projects/cPlayground/clox/lox/chunk.h
 value.h
 /home/tzz/projects/cPlayground/clox/lox/value.h
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
+table.h
+/home/tzz/projects/cPlayground/clox/lox/table.h
 

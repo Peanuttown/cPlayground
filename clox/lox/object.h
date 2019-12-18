@@ -24,6 +24,7 @@ struct sObjString{
 	Obj obj;
 	int length;
 	char* chars;
+	int hash;
 };
 
 static bool isObjType(Value value,ObjType type){

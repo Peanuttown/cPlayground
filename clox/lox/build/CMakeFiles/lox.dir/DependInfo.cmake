@@ -9,7 +9,9 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/tzz/projects/cPlayground/clox/lox/debug.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/debug.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/main.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/main.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/memory.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/memory.c.o"
+  "/home/tzz/projects/cPlayground/clox/lox/object.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/object.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/scanner.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/scanner.c.o"
+  "/home/tzz/projects/cPlayground/clox/lox/table.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/table.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/value.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/value.c.o"
   "/home/tzz/projects/cPlayground/clox/lox/vm.c" "/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles/lox.dir/vm.c.o"
   )
