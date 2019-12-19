@@ -73,6 +73,21 @@ int disassembleInstruction(Chunk* chunk,int offset){
 		case OP_LESS:{
 					 return printSimpleInstruction("OP_LESS",offset);
 			    }
+		case OP_PRINT:{
+				      return printSimpleInstruction("OP_PRINT",offset);
+			      }
+		case OP_POP:{
+				      return printSimpleInstruction("OP_POP",offset);
+			      }
+		case OP_DEFINE_GLOBAL:{
+					 return constantInstruction("OP_DEFINE_GLOBAL",chunk,offset);
+			      }
+		case OP_GET_GLOBAL:{
+					 return constantInstruction("OP_GET_GLOBAL",chunk,offset);
+				   }
+		case OP_SET_GLOBAL:{
+					 return constantInstruction("OP_SET_GLOBAL",chunk,offset);
+				   }
 		default:{
 				printf("debug error : unknown instruction type %d\n",code);
 				exit(64);

@@ -2,6 +2,7 @@
 #include "common.h"
 #include "memory.h"
 #include "string.h"
+#include <stdio.h>
 
 #define TABLE_MAX_LOAD 0.85
 
@@ -11,7 +12,7 @@ static Entry* allocateEntries(int num){
 	for (int i=0;i < num;i++){
 		Entry* entry = &entries[i];
 		entry->key = NULL;
-		entry->value = BOOL_VAL(false);
+		entry->value = NIL_VAL;
 	}
 	return entries;
 }
@@ -34,7 +35,7 @@ static Entry* findEntry(Entry* entries,ObjString* key,int cap){
 	for(;;){
 		Entry* alternate = &entries[index];
 
-		if (alternate ==NULL){
+		if (alternate->key ==NULL){
 			if (IS_NIL(alternate->value)){
 				return tone?tone:alternate;
 			}else{
@@ -127,7 +128,7 @@ ObjString* tableFindString(Table* table,char* chars,int length,int hash){
 		Entry* entry = &table->entries[index];
 		if(entry->key ==NULL){
 			if (IS_NIL(entry->value)) return NULL;
-		}else if(entry->key->length == length && memcpy(entry->key->chars,chars,length)==0){
+		}else if(entry->key->length == length && memcmp(entry->key->chars,chars,length)==0){
 			return entry->key;
 		}
 		index =(index+1) % table->cap;

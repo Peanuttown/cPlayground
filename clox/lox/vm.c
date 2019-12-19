@@ -31,6 +31,7 @@ void initVM(){
 	resetStack();
 	vm.objects = NULL;
 	initTable(&vm.strings);
+	initTable(&vm.globals);
 }
 
 
@@ -41,7 +42,7 @@ static void freeObject(Obj* obj){
 					FREE_ARRAY(char,string->chars,string->length+1);
 					FREE(ObjString,string);
 					break;
-		}
+				}
 		default:{
 				fprintf(stderr,"freeObject error : unexpect obj type %d\n",obj->type);
 				exit(64);
@@ -53,7 +54,7 @@ static void freeObject(Obj* obj){
 static void freeObjects(){
 	Obj* obj = vm.objects;
 	for (;obj != NULL;){
-		Obj* next = obj;
+		Obj* next = obj->next;
 		freeObject(obj);
 		obj = next;
 	}
@@ -63,6 +64,7 @@ static void freeObjects(){
 void freeVM(){
 	freeObjects();
 	freeTable(&vm.strings);
+	freeTable(&vm.globals);
 }
 
 
@@ -115,99 +117,131 @@ static InterpretResult run(){
 			concatenate();\
 		}else if(!IS_NUMBER((peek(0))) || !IS_NUMBER(peek(1))){\
 			runtimeError("Operands must be number"); \
-				return INTERPRET_RUNTIME_ERR; \
-				double b = AS_NUMBER(pop()); \
-				double a = AS_NUMBER(pop()); \
-				push(valueType(a op b)); \
+			return INTERPRET_RUNTIME_ERR; \
 		}\
+		double b = AS_NUMBER(pop()); \
+		double a = AS_NUMBER(pop()); \
+		push(valueType(a op b)); \
 	}while(false) 
 
+#define READ_STRING() AS_STRING(READ_CONSTANT())
 
-for(;;){
+	for(;;){
 #ifdef DEBUG_TRACE_EXECUTION
-	//print stack value
-	printf("     ");
-	for(Value* slot = vm.stack;slot < vm.stackTop;slot++){
-		printf("[");
-		printValue(*slot);
-		printf("]");
-	}
-	printf("\n");
+		//print stack value
+		printf("     ");
+		for(Value* slot = vm.stack;slot < vm.stackTop;slot++){
+			printf("[");
+			printValue(*slot);
+			printf("]");
+		}
+		printf("\n");
 
-	disassembleInstruction(vm.chunk,(int)(vm.ip - vm.chunk->code));
+		disassembleInstruction(vm.chunk,(int)(vm.ip - vm.chunk->code));
 #endif
-	uint8_t instruction;
-	switch(instruction = READ_BYTE()){
-		case OP_RETURN:{
-				       return INTERPRET_OK;
-			       }
-		case OP_CONSTANT:{
-					 Value value = READ_CONSTANT();
-					 push(value);
-					 break;
-				 }
-		case OP_ADD:{
-				    BINARY_OP(NUMBER_VAL,+);
-				    break;
-			    }
-		case OP_MINUS:{
-				      BINARY_OP(NUMBER_VAL,-);
-				      break;
-			      }
-		case OP_DIVIDE:{
-				       BINARY_OP(NUMBER_VAL,/);
-				       break;
-			       }
-		case OP_MULTIPLY:{
-					 BINARY_OP(NUMBER_VAL,*);
-					 break;
-				 }
-		case OP_NEGATE:{
-				       if (!(IS_NUMBER(peek(0)))){
-					       runtimeError("negate operand must be number");
-					       return INTERPRET_RUNTIME_ERR;
+		uint8_t instruction;
+		switch(instruction = READ_BYTE()){
+			case OP_RETURN:{
+					       return INTERPRET_OK;
 				       }
-				       push(NUMBER_VAL(-AS_NUMBER(pop())));
-			       }
-		case OP_FALSE:{
-				      push(BOOL_VAL(false));
-				      break;
-			      }
-		case OP_TRUE:{
-				     push(BOOL_VAL(true));
-				     break;
-			     }
-		case OP_NIL:{
-				    push(NIL_VAL);
-				    break;
-			    }
-		case OP_NOT:{
-				    push(BOOL_VAL(isFalsey(pop())));
-				    break;
-			    }
-		case OP_EQUAL:{
-				      Value b = pop();
-				      Value a = pop();
-				      push(BOOL_VAL(valuesEqual(a,b)));
-			      }
-		case OP_GREATER:{
-					BINARY_OP(BOOL_VAL,>);
-					break;
+			case OP_CONSTANT:{
+						 Value value = READ_CONSTANT();
+						 push(value);
+						 break;
+					 }
+			case OP_ADD:{
+					    BINARY_OP(NUMBER_VAL,+);
+					    break;
+				    }
+			case OP_MINUS:{
+					      BINARY_OP(NUMBER_VAL,-);
+					      break;
+				      }
+			case OP_DIVIDE:{
+					       BINARY_OP(NUMBER_VAL,/);
+					       break;
+				       }
+			case OP_MULTIPLY:{
+						 BINARY_OP(NUMBER_VAL,*);
+						 break;
+					 }
+			case OP_NEGATE:{
+					       if (!(IS_NUMBER(peek(0)))){
+						       runtimeError("negate operand must be number");
+						       return INTERPRET_RUNTIME_ERR;
+					       }
+					       push(NUMBER_VAL(-AS_NUMBER(pop())));
+				       }
+			case OP_FALSE:{
+					      push(BOOL_VAL(false));
+					      break;
+				      }
+			case OP_TRUE:{
+					     push(BOOL_VAL(true));
+					     break;
+				     }
+			case OP_NIL:{
+					    push(NIL_VAL);
+					    break;
+				    }
+			case OP_NOT:{
+					    push(BOOL_VAL(isFalsey(pop())));
+					    break;
+				    }
+			case OP_EQUAL:{
+					      Value b = pop();
+					      Value a = pop();
+					      push(BOOL_VAL(valuesEqual(a,b)));
+				      }
+			case OP_GREATER:{
+						BINARY_OP(BOOL_VAL,>);
+						break;
+					}
+			case OP_LESS:{
+					     BINARY_OP(BOOL_VAL,<);
+					     break;
+				     }
+			case OP_PRINT:{
+					      printValue(pop());
+					      printf("\n");
+					      break;
+				      }
+			case OP_POP:{
+					    pop();
+					    break;
+				    }
+			case OP_DEFINE_GLOBAL:{
+						      ObjString* string = READ_STRING();
+						      tableSet(&vm.globals,string,peek(0));
+						      pop();
+						      break;
+					      }
+			case OP_GET_GLOBAL:{
+						   ObjString* name = READ_STRING();
+						   Value value;
+						   if(!tableGet(&vm.globals,name,&value)){
+							   runtimeError("Undefined variable '%s'",name->chars);
+							   return INTERPRET_RUNTIME_ERR;
+						   }
+						   push(value);
+						   break;
+					   }
+			case OP_SET_GLOBAL:{
+						   ObjString* name= READ_STRING();
+						   Value value = pop();
+						   tableSet(&vm.globals,name,value);
+						   break;
+					   }
+			default:{
+					fprintf(stderr,"interpret error ,unexpected instruction :%d",instruction);
+					exit(64);
 				}
-		case OP_LESS:{
-				     BINARY_OP(BOOL_VAL,<);
-				     break;
-			     }
-
-		default:{
-				fprintf(stderr,"interpret error ,unexpected instruction :%d",instruction);
-				exit(64);
-			}
+		}
 	}
-}
 #undef READ_BYTE
 #undef READ_CONSTANT
-return 0;
+#undef READ_STRING
+	return 0;
 }
 
 InterpretResult interpret(char* source){

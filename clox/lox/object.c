@@ -6,6 +6,7 @@
 #include "vm.h"
 #include "math.h"
 #include "table.h"
+#include <stdio.h>
 
 #define ALLOCATE_OBJ(type,objType) \
 	(type*)allocateObj(sizeof(type),objType)
@@ -25,6 +26,7 @@ static int hashString(const char* key,int length){
 static Obj* allocateObj(size_t size,ObjType type){
 	Obj* obj =  (Obj*)reallocate(NULL,0,size);
 	obj->type = type;
+	printf("obj type %d\n",type);
 	obj->next =vm.objects;
 	vm.objects = obj;
 	return obj;
@@ -36,6 +38,7 @@ static ObjString* allocateString(char* chars,int length,int hash){
 	obj->length =length;
 	obj->hash = hash;
 	tableSet(&vm.strings,obj,NIL_VAL);
+	printf("alloctString,%p,%.*s\n",obj,length,chars );
 	return obj;
 }
 
@@ -53,7 +56,7 @@ ObjString* copyString(const char* chars,int length){
 }
 
 ObjString* takeString(char* chars,int length){
-	uint32_t hash = hashString(chars,length);
+	int hash = hashString(chars,length);
 	ObjString* interned = tableFindString(&vm.strings,chars,length,hash);
 	if (interned != NULL){
 		FREE_ARRAY(char,chars,length+1);

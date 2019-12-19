@@ -12,6 +12,24 @@
 #include "debug.h"
 #endif
 
+/* grammar
+ * statement: exprStmt 
+ * 		| forStmt
+ * 		| ifStmt
+ * 		| printStmt
+ * 		| returnStmt
+ * 		| whileStmt
+ * 		| block;
+ *declaration: classDecl
+ *		| funcDecl
+ *		|varDecl
+ *		|statement;
+ *
+ *
+ *
+ *
+ * */
+
 static void binary();
 static void number();
 static void unary();
@@ -19,6 +37,9 @@ static void group();
 static void literal();
 static void string();
 static void emitConstant(Value value);
+static void variable();
+static uint8_t identifierConstant(Token* token);
+static bool match(TokenType type);
 
 typedef enum{
 	PREC_NONE,
@@ -64,7 +85,7 @@ ParseRule rules[] ={
 	{ NULL,     binary,    PREC_COMPARSION },       // TOKEN_GREATER_EQUAL   
 	{ NULL,     binary,    PREC_COMPARSION },       // TOKEN_LESS            
 	{ NULL,     binary,    PREC_COMPARSION },       // TOKEN_LESS_EQUAL      
-	{ NULL,     NULL,    PREC_NONE },       // TOKEN_IDENTIFIER      
+	{ variable,     NULL,    PREC_NONE },       // TOKEN_IDENTIFIER      
 	{ string,     NULL,    PREC_NONE },       // TOKEN_STRING          
 	{ number,   NULL,    PREC_NONE },       // TOKEN_NUMBER          
 	{ NULL,     NULL,    PREC_NONE },       // TOKEN_AND             
@@ -122,8 +143,8 @@ static void literal(){
 					  break;
 				  }
 		case TOKEN_TRUE:{
-			emitByte(OP_TRUE);
-			break;
+					emitByte(OP_TRUE);
+					break;
 				}
 		case TOKEN_NIL:{
 				       emitByte(OP_NIL);
@@ -140,6 +161,25 @@ static void literal(){
 
 static void string(){
 	emitConstant(OBJ_VAL(copyString(parser.previous.start+1,parser.previous.length-2)));
+}
+
+static void emitBytes(uint8_t a,uint8_t b){
+	emitByte(a);
+	emitByte(b);
+}
+
+static void namedVariable(Token* token){
+	uint8_t arg = identifierConstant(token);
+	if (match(TOKEN_EQUAL)){
+		expression();
+		emitBytes(OP_SET_GLOBAL,arg);
+	}else{
+		emitBytes(OP_GET_GLOBAL,arg);
+	}
+}
+
+static void variable(){
+	namedVariable(&parser.previous);
 }
 
 static void errAt(Token *token,char* msg){
@@ -264,19 +304,19 @@ static void binary(){
 					   break;
 				   }
 		case TOKEN_GREATER_EQUAL:{
-					   emitByte(OP_LESS);
-					   emitByte(OP_NOT);
-					   break;
-				   }
+						 emitByte(OP_LESS);
+						 emitByte(OP_NOT);
+						 break;
+					 }
 		case TOKEN_LESS:{
-					   emitByte(OP_LESS);
-					   break;
-				   }
+					emitByte(OP_LESS);
+					break;
+				}
 		case TOKEN_LESS_EQUAL:{
-					   emitByte(OP_GREATER);
-					   emitByte(OP_NOT);
-					   break;
-				   }
+					      emitByte(OP_GREATER);
+					      emitByte(OP_NOT);
+					      break;
+				      }
 		default:{
 				fprintf(stderr,"compile bug!!!! unexpected binary operatorType %d\n",operatorType);
 				exit(64);
@@ -302,8 +342,8 @@ static void unary(){
 					break;
 				}
 		default: 
-				 fprintf(stderr,"compiler bug ,unexpected unary operatorType %d",operatorType);
-				 exit(64);
+				fprintf(stderr,"compiler bug ,unexpected unary operatorType %d",operatorType);
+				exit(64);
 	}
 }
 
@@ -327,20 +367,112 @@ static void expression(){
 	parsePrecedence(PREC_ASSIGNMENT);
 }
 
+static bool check(TokenType type){
+	return  parser.current.type == type;
+}
+
+static bool match(TokenType type){
+	if (check(type)){
+		advance();
+		return true;
+	}
+	return false;
+}
+
+static void printStmt(){
+	expression();
+	consume(TOKEN_SEMICOLON,"Expect ';' after value.");
+	emitByte(OP_PRINT);
+}
+
+static void expressionStmt(){
+	expression();
+	consume(TOKEN_SEMICOLON,"Expect ';' after expression..");
+	emitByte(OP_POP);
+}
+
+static void statement(){
+	if (match(TOKEN_PRINT)){
+		printStmt();
+	}else{
+		expressionStmt();
+	}
+}
+
+static uint8_t identifierConstant(Token* token){
+	return makeConstant(OBJ_VAL(copyString(token->start,token->length)));
+}
+
+static uint8_t parseVariable(char* errMsg){
+	consume(TOKEN_IDENTIFIER,errMsg);
+	return identifierConstant(&parser.previous);
+}
+
+static void defineVariable(uint8_t global){
+	emitByte(OP_DEFINE_GLOBAL);
+	emitByte(global);
+}
+
+static void varDecl(){
+	uint8_t global = parseVariable("Expect variable name");
+
+	if (match(TOKEN_EQUAL)){
+		expression();
+	}else{
+		emitByte(OP_NIL);
+	}
+	consume(TOKEN_SEMICOLON,"expect ';' after declaration");
+	 defineVariable(global);
+}
+
+static void declaration(){
+	if (match(TOKEN_VAR)){
+		varDecl();
+	}else{
+		statement();
+	}
+}
+
+static void synchronize(){
+	parser.panicMode = false;
+	while(parser.current.type != TOKEN_EOF){
+		if (parser.previous.type == TOKEN_SEMICOLON) return;
+
+		switch(parser.current.type){
+			case TOKEN_CLASS:                                 
+			case TOKEN_FUN:                                   
+			case TOKEN_VAR:                                   
+			case TOKEN_FOR:                                   
+			case TOKEN_IF:                                    
+			case TOKEN_WHILE:                                 
+			case TOKEN_PRINT:                                 
+			case TOKEN_RETURN:                                
+				return;                                         
+
+			default:                                          
+				// Do nothing.                                  
+				;
+
+		}
+		advance();
+	}
+}
+
 bool compile(char* source,Chunk* chunk){
 	initScanner(source);
 	compilingChunk = chunk;
 	parser.hadError  =false;
 	parser.panicMode = false;
 	advance();
-	for (;;){
-		expression();
-		if (parser.current.type == TOKEN_EOF){
-			break;
-		}
+
+	while(!match(TOKEN_EOF)){
+		declaration();
+
+		if (parser.panicMode) synchronize();
 	}
 	consume(TOKEN_EOF,"Expect enf of expression.");
 	endCompile();
+	printf("comile over\n");
 
 
 	//int line = -1;

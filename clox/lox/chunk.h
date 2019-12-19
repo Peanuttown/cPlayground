@@ -4,6 +4,7 @@
 #include "common.h"
 #include "value.h"
 typedef enum{
+	OP_PRINT,
 	OP_RETURN,
 	OP_CONSTANT,
 	OP_NIL,
@@ -18,6 +19,10 @@ typedef enum{
 	OP_DIVIDE,
 	OP_NOT,
 	OP_MULTIPLY,
+	OP_POP,
+	OP_DEFINE_GLOBAL,
+	OP_GET_GLOBAL,
+	OP_SET_GLOBAL,
 }OpCode;
 
 typedef struct{

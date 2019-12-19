@@ -111,6 +111,8 @@ math.h
 /home/tzz/projects/cPlayground/clox/lox/math.h
 table.h
 /home/tzz/projects/cPlayground/clox/lox/table.h
+stdio.h
+-
 
 /home/tzz/projects/cPlayground/clox/lox/object.h
 common.h
@@ -137,6 +139,8 @@ memory.h
 /home/tzz/projects/cPlayground/clox/lox/memory.h
 string.h
 /home/tzz/projects/cPlayground/clox/lox/string.h
+stdio.h
+-
 
 /home/tzz/projects/cPlayground/clox/lox/table.h
 value.h
