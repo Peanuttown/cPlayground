@@ -126,6 +126,9 @@ static InterpretResult run(){
 
 #define READ_STRING() AS_STRING(READ_CONSTANT())
 
+#define READ_SHORT() \
+	(vm.ip +=2,(uint16_t)((vm.ip[-2]<<8) | vm.ip[-1]))
+
 	for(;;){
 #ifdef DEBUG_TRACE_EXECUTION
 		//print stack value
@@ -192,6 +195,7 @@ static InterpretResult run(){
 					      Value b = pop();
 					      Value a = pop();
 					      push(BOOL_VAL(valuesEqual(a,b)));
+					      break;
 				      }
 			case OP_GREATER:{
 						BINARY_OP(BOOL_VAL,>);
@@ -228,10 +232,36 @@ static InterpretResult run(){
 					   }
 			case OP_SET_GLOBAL:{
 						   ObjString* name= READ_STRING();
-						   Value value = pop();
+						   Value value = peek(0);
 						   tableSet(&vm.globals,name,value);
 						   break;
 					   }
+			case OP_SET_LOCAL:{
+						  uint8_t slot = READ_BYTE();
+						  vm.stack[slot] = peek(0);
+						  break;
+					  }
+			case OP_GET_LOCAL:{
+						  uint8_t slot = READ_BYTE();
+						  push(vm.stack[slot]);
+						  break;
+					  }
+			case OP_JUMP_IF_FALSE:{
+						      uint16_t jump = READ_SHORT();
+						      if (isFalsey(peek(0))) vm.ip +=jump;
+						      break;
+					      }
+			case OP_JUMP:{
+					     uint16_t offset = READ_SHORT();
+					     vm.ip +=offset;
+					     break;
+				     }
+			case OP_LOOP:{
+					     printf("here\n");
+					     int offset = READ_SHORT();
+					     vm.ip -=offset;
+					     break;
+				     }
 			default:{
 					fprintf(stderr,"interpret error ,unexpected instruction :%d",instruction);
 					exit(64);
@@ -254,7 +284,7 @@ InterpretResult interpret(char* source){
 
 	vm.chunk = &chunk;
 	vm.ip = vm.chunk->code;
-	InterpretResult result = run();
+	InterpretResult result = run();;
 	freeChunk(&chunk);
 	return result;
 }

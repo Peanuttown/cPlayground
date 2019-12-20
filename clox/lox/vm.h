@@ -9,12 +9,12 @@
 
 typedef struct{
 	Chunk* chunk;
-	uint8_t* ip;
 	Value stack[STACK_MAX];
 	Value* stackTop;
 	Obj* objects;
 	Table strings;//string interning
 	Table globals;
+	uint8_t* ip;
 }VM;
 
 extern VM vm;
