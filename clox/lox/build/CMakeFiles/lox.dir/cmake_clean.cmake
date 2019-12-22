@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/lox.dir/main.c.o"
+  "CMakeFiles/lox.dir/object.c.o"
   "CMakeFiles/lox.dir/debug.c.o"
   "CMakeFiles/lox.dir/chunk.c.o"
   "CMakeFiles/lox.dir/memory.c.o"
@@ -8,7 +9,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/lox.dir/compiler.c.o"
   "CMakeFiles/lox.dir/scanner.c.o"
   "CMakeFiles/lox.dir/table.c.o"
-  "CMakeFiles/lox.dir/object.c.o"
   "lox.pdb"
   "lox"
 )

@@ -31,6 +31,11 @@ static int jumpInstruction(char* name,int sign,Chunk* chunk,int offset){
 
 }
 
+static int byteInstruction(char* name,Chunk* chunk,int offset){
+	printf("%-16s   %4d\n",name,chunk->code[offset+1]);
+	return offset+2;
+}
+
 int disassembleInstruction(Chunk* chunk,int offset){
 	printf("%04d    ",offset);
 	
@@ -111,6 +116,17 @@ int disassembleInstruction(Chunk* chunk,int offset){
 		case OP_LOOP:{
 				     return jumpInstruction("OP_LOOP",-1,chunk,offset);
 			     }
+		case OP_CALL:{
+				     return byteInstruction("OP_CALL",chunk,offset);
+			     }
+		case OP_CLOSURE:{
+					offset++;
+					uint8_t constant = chunk->code[offset++];
+					printf("%-16s %4d","OP_CLOSURE",constant);
+					printValue(chunk->constants.values[constant]);
+					printf("\n");
+					return offset;
+				}
 		default:{
 				printf("debug error : unknown instruction type %d\n",code);
 				exit(64);

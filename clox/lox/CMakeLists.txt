@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 project(lox)
-set(src_list main.c debug.c chunk.c memory.c value.c vm.c compiler.c scanner.c table.c object.c)
+set(src_list main.c object.c debug.c chunk.c memory.c value.c vm.c compiler.c scanner.c table.c )
 add_compile_options(-g)
 add_executable(lox ${src_list})

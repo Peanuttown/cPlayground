@@ -55,6 +55,8 @@ common.h
 /home/tzz/projects/cPlayground/clox/lox/common.h
 chunk.h
 /home/tzz/projects/cPlayground/clox/lox/chunk.h
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
 
 /home/tzz/projects/cPlayground/clox/lox/debug.c
 debug.h
@@ -89,8 +91,14 @@ memory.h
 /home/tzz/projects/cPlayground/clox/lox/memory.h
 stdlib.h
 -
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
+stdio.h
+-
 
 /home/tzz/projects/cPlayground/clox/lox/memory.h
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
 common.h
 /home/tzz/projects/cPlayground/clox/lox/common.h
 
@@ -113,10 +121,14 @@ table.h
 /home/tzz/projects/cPlayground/clox/lox/table.h
 stdio.h
 -
+chunk.h
+/home/tzz/projects/cPlayground/clox/lox/chunk.h
 
 /home/tzz/projects/cPlayground/clox/lox/object.h
 common.h
 /home/tzz/projects/cPlayground/clox/lox/common.h
+chunk.h
+/home/tzz/projects/cPlayground/clox/lox/chunk.h
 value.h
 /home/tzz/projects/cPlayground/clox/lox/value.h
 
@@ -174,6 +186,8 @@ vm.h
 chunk.h
 /home/tzz/projects/cPlayground/clox/lox/chunk.h
 stdio.h
+-
+time.h
 -
 stdlib.h
 -

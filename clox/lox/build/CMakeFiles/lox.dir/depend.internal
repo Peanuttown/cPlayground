@@ -6,6 +6,7 @@ CMakeFiles/lox.dir/chunk.c.o
  /home/tzz/projects/cPlayground/clox/lox/chunk.h
  /home/tzz/projects/cPlayground/clox/lox/common.h
  /home/tzz/projects/cPlayground/clox/lox/memory.h
+ /home/tzz/projects/cPlayground/clox/lox/object.h
  /home/tzz/projects/cPlayground/clox/lox/value.h
 CMakeFiles/lox.dir/compiler.c.o
  /home/tzz/projects/cPlayground/clox/lox/chunk.h
@@ -32,9 +33,12 @@ CMakeFiles/lox.dir/main.c.o
  /home/tzz/projects/cPlayground/clox/lox/value.h
  /home/tzz/projects/cPlayground/clox/lox/vm.h
 CMakeFiles/lox.dir/memory.c.o
+ /home/tzz/projects/cPlayground/clox/lox/chunk.h
  /home/tzz/projects/cPlayground/clox/lox/common.h
  /home/tzz/projects/cPlayground/clox/lox/memory.c
  /home/tzz/projects/cPlayground/clox/lox/memory.h
+ /home/tzz/projects/cPlayground/clox/lox/object.h
+ /home/tzz/projects/cPlayground/clox/lox/value.h
 CMakeFiles/lox.dir/object.c.o
  /home/tzz/projects/cPlayground/clox/lox/chunk.h
  /home/tzz/projects/cPlayground/clox/lox/common.h
@@ -49,6 +53,7 @@ CMakeFiles/lox.dir/scanner.c.o
  /home/tzz/projects/cPlayground/clox/lox/scanner.c
  /home/tzz/projects/cPlayground/clox/lox/scanner.h
 CMakeFiles/lox.dir/table.c.o
+ /home/tzz/projects/cPlayground/clox/lox/chunk.h
  /home/tzz/projects/cPlayground/clox/lox/common.h
  /home/tzz/projects/cPlayground/clox/lox/memory.h
  /home/tzz/projects/cPlayground/clox/lox/object.h
@@ -56,6 +61,7 @@ CMakeFiles/lox.dir/table.c.o
  /home/tzz/projects/cPlayground/clox/lox/table.h
  /home/tzz/projects/cPlayground/clox/lox/value.h
 CMakeFiles/lox.dir/value.c.o
+ /home/tzz/projects/cPlayground/clox/lox/chunk.h
  /home/tzz/projects/cPlayground/clox/lox/common.h
  /home/tzz/projects/cPlayground/clox/lox/memory.h
  /home/tzz/projects/cPlayground/clox/lox/object.h

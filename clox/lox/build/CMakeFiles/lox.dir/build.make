@@ -81,9 +81,33 @@ CMakeFiles/lox.dir/main.c.o.provides: CMakeFiles/lox.dir/main.c.o.requires
 CMakeFiles/lox.dir/main.c.o.provides.build: CMakeFiles/lox.dir/main.c.o
 
 
+CMakeFiles/lox.dir/object.c.o: CMakeFiles/lox.dir/flags.make
+CMakeFiles/lox.dir/object.c.o: ../object.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/lox.dir/object.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/object.c.o   -c /home/tzz/projects/cPlayground/clox/lox/object.c
+
+CMakeFiles/lox.dir/object.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lox.dir/object.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/tzz/projects/cPlayground/clox/lox/object.c > CMakeFiles/lox.dir/object.c.i
+
+CMakeFiles/lox.dir/object.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lox.dir/object.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/tzz/projects/cPlayground/clox/lox/object.c -o CMakeFiles/lox.dir/object.c.s
+
+CMakeFiles/lox.dir/object.c.o.requires:
+
+.PHONY : CMakeFiles/lox.dir/object.c.o.requires
+
+CMakeFiles/lox.dir/object.c.o.provides: CMakeFiles/lox.dir/object.c.o.requires
+	$(MAKE) -f CMakeFiles/lox.dir/build.make CMakeFiles/lox.dir/object.c.o.provides.build
+.PHONY : CMakeFiles/lox.dir/object.c.o.provides
+
+CMakeFiles/lox.dir/object.c.o.provides.build: CMakeFiles/lox.dir/object.c.o
+
+
 CMakeFiles/lox.dir/debug.c.o: CMakeFiles/lox.dir/flags.make
 CMakeFiles/lox.dir/debug.c.o: ../debug.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/lox.dir/debug.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/lox.dir/debug.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/debug.c.o   -c /home/tzz/projects/cPlayground/clox/lox/debug.c
 
 CMakeFiles/lox.dir/debug.c.i: cmake_force
@@ -107,7 +131,7 @@ CMakeFiles/lox.dir/debug.c.o.provides.build: CMakeFiles/lox.dir/debug.c.o
 
 CMakeFiles/lox.dir/chunk.c.o: CMakeFiles/lox.dir/flags.make
 CMakeFiles/lox.dir/chunk.c.o: ../chunk.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/lox.dir/chunk.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/lox.dir/chunk.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/chunk.c.o   -c /home/tzz/projects/cPlayground/clox/lox/chunk.c
 
 CMakeFiles/lox.dir/chunk.c.i: cmake_force
@@ -131,7 +155,7 @@ CMakeFiles/lox.dir/chunk.c.o.provides.build: CMakeFiles/lox.dir/chunk.c.o
 
 CMakeFiles/lox.dir/memory.c.o: CMakeFiles/lox.dir/flags.make
 CMakeFiles/lox.dir/memory.c.o: ../memory.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/lox.dir/memory.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/lox.dir/memory.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/memory.c.o   -c /home/tzz/projects/cPlayground/clox/lox/memory.c
 
 CMakeFiles/lox.dir/memory.c.i: cmake_force
@@ -155,7 +179,7 @@ CMakeFiles/lox.dir/memory.c.o.provides.build: CMakeFiles/lox.dir/memory.c.o
 
 CMakeFiles/lox.dir/value.c.o: CMakeFiles/lox.dir/flags.make
 CMakeFiles/lox.dir/value.c.o: ../value.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/lox.dir/value.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/lox.dir/value.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/value.c.o   -c /home/tzz/projects/cPlayground/clox/lox/value.c
 
 CMakeFiles/lox.dir/value.c.i: cmake_force
@@ -179,7 +203,7 @@ CMakeFiles/lox.dir/value.c.o.provides.build: CMakeFiles/lox.dir/value.c.o
 
 CMakeFiles/lox.dir/vm.c.o: CMakeFiles/lox.dir/flags.make
 CMakeFiles/lox.dir/vm.c.o: ../vm.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/lox.dir/vm.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/lox.dir/vm.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/vm.c.o   -c /home/tzz/projects/cPlayground/clox/lox/vm.c
 
 CMakeFiles/lox.dir/vm.c.i: cmake_force
@@ -203,7 +227,7 @@ CMakeFiles/lox.dir/vm.c.o.provides.build: CMakeFiles/lox.dir/vm.c.o
 
 CMakeFiles/lox.dir/compiler.c.o: CMakeFiles/lox.dir/flags.make
 CMakeFiles/lox.dir/compiler.c.o: ../compiler.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/lox.dir/compiler.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/lox.dir/compiler.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/compiler.c.o   -c /home/tzz/projects/cPlayground/clox/lox/compiler.c
 
 CMakeFiles/lox.dir/compiler.c.i: cmake_force
@@ -227,7 +251,7 @@ CMakeFiles/lox.dir/compiler.c.o.provides.build: CMakeFiles/lox.dir/compiler.c.o
 
 CMakeFiles/lox.dir/scanner.c.o: CMakeFiles/lox.dir/flags.make
 CMakeFiles/lox.dir/scanner.c.o: ../scanner.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/lox.dir/scanner.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/lox.dir/scanner.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/scanner.c.o   -c /home/tzz/projects/cPlayground/clox/lox/scanner.c
 
 CMakeFiles/lox.dir/scanner.c.i: cmake_force
@@ -251,7 +275,7 @@ CMakeFiles/lox.dir/scanner.c.o.provides.build: CMakeFiles/lox.dir/scanner.c.o
 
 CMakeFiles/lox.dir/table.c.o: CMakeFiles/lox.dir/flags.make
 CMakeFiles/lox.dir/table.c.o: ../table.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/lox.dir/table.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/lox.dir/table.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/table.c.o   -c /home/tzz/projects/cPlayground/clox/lox/table.c
 
 CMakeFiles/lox.dir/table.c.i: cmake_force
@@ -273,33 +297,10 @@ CMakeFiles/lox.dir/table.c.o.provides: CMakeFiles/lox.dir/table.c.o.requires
 CMakeFiles/lox.dir/table.c.o.provides.build: CMakeFiles/lox.dir/table.c.o
 
 
-CMakeFiles/lox.dir/object.c.o: CMakeFiles/lox.dir/flags.make
-CMakeFiles/lox.dir/object.c.o: ../object.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/lox.dir/object.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/lox.dir/object.c.o   -c /home/tzz/projects/cPlayground/clox/lox/object.c
-
-CMakeFiles/lox.dir/object.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/lox.dir/object.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/tzz/projects/cPlayground/clox/lox/object.c > CMakeFiles/lox.dir/object.c.i
-
-CMakeFiles/lox.dir/object.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/lox.dir/object.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/tzz/projects/cPlayground/clox/lox/object.c -o CMakeFiles/lox.dir/object.c.s
-
-CMakeFiles/lox.dir/object.c.o.requires:
-
-.PHONY : CMakeFiles/lox.dir/object.c.o.requires
-
-CMakeFiles/lox.dir/object.c.o.provides: CMakeFiles/lox.dir/object.c.o.requires
-	$(MAKE) -f CMakeFiles/lox.dir/build.make CMakeFiles/lox.dir/object.c.o.provides.build
-.PHONY : CMakeFiles/lox.dir/object.c.o.provides
-
-CMakeFiles/lox.dir/object.c.o.provides.build: CMakeFiles/lox.dir/object.c.o
-
-
 # Object files for target lox
 lox_OBJECTS = \
 "CMakeFiles/lox.dir/main.c.o" \
+"CMakeFiles/lox.dir/object.c.o" \
 "CMakeFiles/lox.dir/debug.c.o" \
 "CMakeFiles/lox.dir/chunk.c.o" \
 "CMakeFiles/lox.dir/memory.c.o" \
@@ -307,13 +308,13 @@ lox_OBJECTS = \
 "CMakeFiles/lox.dir/vm.c.o" \
 "CMakeFiles/lox.dir/compiler.c.o" \
 "CMakeFiles/lox.dir/scanner.c.o" \
-"CMakeFiles/lox.dir/table.c.o" \
-"CMakeFiles/lox.dir/object.c.o"
+"CMakeFiles/lox.dir/table.c.o"
 
 # External object files for target lox
 lox_EXTERNAL_OBJECTS =
 
 lox: CMakeFiles/lox.dir/main.c.o
+lox: CMakeFiles/lox.dir/object.c.o
 lox: CMakeFiles/lox.dir/debug.c.o
 lox: CMakeFiles/lox.dir/chunk.c.o
 lox: CMakeFiles/lox.dir/memory.c.o
@@ -322,7 +323,6 @@ lox: CMakeFiles/lox.dir/vm.c.o
 lox: CMakeFiles/lox.dir/compiler.c.o
 lox: CMakeFiles/lox.dir/scanner.c.o
 lox: CMakeFiles/lox.dir/table.c.o
-lox: CMakeFiles/lox.dir/object.c.o
 lox: CMakeFiles/lox.dir/build.make
 lox: CMakeFiles/lox.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tzz/projects/cPlayground/clox/lox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking C executable lox"
@@ -334,6 +334,7 @@ CMakeFiles/lox.dir/build: lox
 .PHONY : CMakeFiles/lox.dir/build
 
 CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/main.c.o.requires
+CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/object.c.o.requires
 CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/debug.c.o.requires
 CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/chunk.c.o.requires
 CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/memory.c.o.requires
@@ -342,7 +343,6 @@ CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/vm.c.o.requires
 CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/compiler.c.o.requires
 CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/scanner.c.o.requires
 CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/table.c.o.requires
-CMakeFiles/lox.dir/requires: CMakeFiles/lox.dir/object.c.o.requires
 
 .PHONY : CMakeFiles/lox.dir/requires
 

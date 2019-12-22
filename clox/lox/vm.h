@@ -5,16 +5,26 @@
 #include "object.h"
 #include "table.h"
 
-#define STACK_MAX 256
+#define FRAMES_MAX 64
+#define STACK_MAX (FRAMES_MAX * UINT8_MAX)
 
 typedef struct{
-	Chunk* chunk;
+	ObjClosure* closure;
+	uint8_t* ip;
+	Value* slots;
+}CallFrame;
+
+typedef struct{
+	CallFrame frames[FRAMES_MAX];
+	int frameCount;
+
+//	Chunk* chunk;
 	Value stack[STACK_MAX];
 	Value* stackTop;
 	Obj* objects;
 	Table strings;//string interning
 	Table globals;
-	uint8_t* ip;
+	//uint8_t* ip;
 }VM;
 
 extern VM vm;
@@ -28,6 +38,7 @@ typedef enum{
 }InterpretResult;
 
 InterpretResult interpret(char* source);
+
 
 void initVM();
 void freeVM();

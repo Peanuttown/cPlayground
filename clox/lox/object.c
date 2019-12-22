@@ -7,6 +7,7 @@
 #include "math.h"
 #include "table.h"
 #include <stdio.h>
+#include "chunk.h"
 
 #define ALLOCATE_OBJ(type,objType) \
 	(type*)allocateObj(sizeof(type),objType)
@@ -64,3 +65,27 @@ ObjString* takeString(char* chars,int length){
 	}
 	return allocateString(chars,length,hash);
 }
+
+ObjFunction* newFunction(){
+	ObjFunction* function =ALLOCATE_OBJ(ObjFunction,OBJ_FUNCTION);
+	//init 
+	function->arity = 0;
+	function->name = NULL;
+	initChunk(&function->chunk);
+	return function;
+
+}
+
+ObjNative* newNative(NativeFn function){
+	ObjNative* native = ALLOCATE_OBJ(ObjNative,OBJ_NATIVE);
+	native->function = function;
+	return native;
+}
+
+ObjClosure* newClosure(ObjFunction* function){
+	ObjClosure* closure = ALLOCATE_OBJ(ObjClosure,OBJ_CLOSURE);
+	closure->function = function;
+	return closure;
+
+}
+

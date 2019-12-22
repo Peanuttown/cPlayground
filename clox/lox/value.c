@@ -66,6 +66,14 @@ bool valuesEqual(Value a,Value b){
 	}
 }
 
+static void printFunction(ObjFunction* func){
+	if (func ->name == NULL){
+		printf("<script>");
+		return;
+	}
+	printf("<fn %s>",func->name->chars);
+}
+
 static void printObj(Obj* obj){
 	switch(obj->type){
 		case OBJ_STRING:{
@@ -73,6 +81,18 @@ static void printObj(Obj* obj){
 					printf("%.*s",string->length,string->chars);
 					break;
 				}
+		case OBJ_FUNCTION:{
+					  printFunction((ObjFunction*)obj);
+					  break;
+				  }
+		case OBJ_NATIVE:{
+					printf("<native fn>");
+					break;
+				}
+		case OBJ_CLOSURE:{
+					 printFunction(((ObjClosure*)obj)->function);
+					 break;
+				 }
 		default:{
 				fprintf(stderr,"printObj error,unexpected obj type %d\n",obj->type);
 				exit(64);
