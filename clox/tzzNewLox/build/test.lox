@@ -1,7 +1,0 @@
-var name ="tzz2";
-print name ;
-{
-	var name = "tzz";
-	print name;
-}
-print name;

@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 3.10)
-PROJECT(LOX)
-set(src_list vmTest.c vm.c memory.c parser.c scanner.c stringObject.c array.c stack.c value.c debug.c table.c)
-add_compile_options(-g)
-add_executable(loxVM ${src_list})
