@@ -1,3 +1,0 @@
-/home/tzz/projects/cPlayground/clox/tzzLox/build/CMakeFiles/rebuild_cache.dir
-/home/tzz/projects/cPlayground/clox/tzzLox/build/CMakeFiles/lox.dir
-/home/tzz/projects/cPlayground/clox/tzzLox/build/CMakeFiles/edit_cache.dir
