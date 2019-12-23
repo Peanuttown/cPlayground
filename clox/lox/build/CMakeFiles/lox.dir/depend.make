@@ -21,6 +21,7 @@ CMakeFiles/lox.dir/debug.c.o: ../chunk.h
 CMakeFiles/lox.dir/debug.c.o: ../common.h
 CMakeFiles/lox.dir/debug.c.o: ../debug.c
 CMakeFiles/lox.dir/debug.c.o: ../debug.h
+CMakeFiles/lox.dir/debug.c.o: ../object.h
 CMakeFiles/lox.dir/debug.c.o: ../value.h
 
 CMakeFiles/lox.dir/main.c.o: ../chunk.h

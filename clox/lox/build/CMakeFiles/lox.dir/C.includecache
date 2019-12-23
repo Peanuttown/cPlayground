@@ -67,6 +67,8 @@ value.h
 /home/tzz/projects/cPlayground/clox/lox/value.h
 stdlib.h
 -
+object.h
+/home/tzz/projects/cPlayground/clox/lox/object.h
 
 /home/tzz/projects/cPlayground/clox/lox/debug.h
 chunk.h
