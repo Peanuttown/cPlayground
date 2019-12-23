@@ -22,6 +22,7 @@ CMakeFiles/lox.dir/debug.c.o
  /home/tzz/projects/cPlayground/clox/lox/common.h
  /home/tzz/projects/cPlayground/clox/lox/debug.c
  /home/tzz/projects/cPlayground/clox/lox/debug.h
+ /home/tzz/projects/cPlayground/clox/lox/object.h
  /home/tzz/projects/cPlayground/clox/lox/value.h
 CMakeFiles/lox.dir/main.c.o
  /home/tzz/projects/cPlayground/clox/lox/chunk.h

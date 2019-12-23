@@ -95,6 +95,11 @@ typedef struct{
 	int depth;
 }Local;
 
+typedef struct{
+	uint8_t index;
+	bool isLocal;
+}Upvalue;
+
 typedef enum{
 	TYPE_FUNCTION,
 	TYPE_SCRIPT,
@@ -108,6 +113,7 @@ typedef struct Compiler{
 	Local locals[UINT8_COUNT];
 	int localCount;
 	int scopeDepth;
+	Upvalue upvalues[UINT8_MAX];
 }Compiler;
 
 Compiler* current = NULL;
@@ -258,6 +264,46 @@ static int resolveLocal(Compiler* compiler,Token* name){
 	return -1;
 }
 
+static int addUpvalue(Compiler* compiler,uint8_t index,bool isLocal){
+	int upvalueCount = compiler->function->upvalueCount;
+
+	for(int i=0;i<upvalueCount;i++){
+		Upvalue* upvalue = &compiler->upvalues[i];
+		if (upvalue->index == index && upvalue->isLocal==isLocal){
+			return i;
+		}
+	}
+
+	if (upvalueCount == UINT8_MAX){
+		error("Too many closure variables in function");
+		return 0;
+	}
+
+	compiler->upvalues[upvalueCount].isLocal =isLocal;
+	compiler->upvalues[upvalueCount].index = index;
+	return compiler->function->upvalueCount++;
+
+}
+
+
+
+static int resolveUpvalue(Compiler* compiler,Token* name){
+	if(compiler->enclosing ==NULL) return -1;
+
+	int local = resolveLocal(compiler->enclosing,name);
+	if(local != -1){
+		return addUpvalue(compiler,(uint8_t)local,true);
+	}
+
+	int upvalue = resolveUpvalue(compiler->enclosing,name);
+	if (upvalue != -1){
+		return addUpvalue(compiler,(uint8_t)upvalue,false);
+	}
+
+	return -1;
+
+}
+
 static void namedVariable(Token* token,bool canAssign){
 	//uint8_t arg = identifierConstant(token);
 	
@@ -270,7 +316,15 @@ static void namedVariable(Token* token,bool canAssign){
 		}else{
 			emitBytes(OP_GET_GLOBAL,arg);
 		}
-	}else{
+	}else if((arg = resolveUpvalue(current,token)) != -1){
+		if (match(TOKEN_EQUAL)&&canAssign){
+			expression();
+			emitBytes(OP_SET_UPVALUE,arg);
+		}else{
+			emitBytes(OP_GET_UPVALUE,arg);
+		}
+	}
+	else{
 		if (match(TOKEN_EQUAL)&&canAssign){
 			expression();
 			emitBytes(OP_SET_LOCAL,arg);
@@ -773,6 +827,12 @@ static void function(FunctionType type){
 	ObjFunction* function = endCompile();
 //	emitBytes(OP_CONSTANT,makeConstant(OBJ_VAL(function)));
 	emitBytes(OP_CLOSURE,makeConstant(OBJ_VAL(function)));
+
+	for (int i=0;i< function->upvalueCount;i++){
+		emitByte(compiler.upvalues[i].isLocal?1:0);
+		emitByte(compiler.upvalues[i].index);
+	}
+
 }
 
 
