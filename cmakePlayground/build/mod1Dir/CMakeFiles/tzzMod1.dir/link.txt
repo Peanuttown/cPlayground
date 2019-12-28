@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC   -shared -Wl,-soname,libtzzMod1.so -o libtzzMod1.so CMakeFiles/tzzMod1.dir/mod1.o 

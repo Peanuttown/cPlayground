@@ -1,1 +1,0 @@
-/usr/bin/cc   -rdynamic CMakeFiles/main.dir/main.o  -o main -Wl,-rpath,/home/tzz/projects/cPlayground/cmakePlayground/build/libtest libtest/libtestTzz.so libtest/libmod2/libmod2.a 

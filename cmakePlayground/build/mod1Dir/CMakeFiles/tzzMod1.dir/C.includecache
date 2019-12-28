@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/tzz/projects/cPlayground/cmakePlayground/mod1/mod1.c
+mod1.h
+/home/tzz/projects/cPlayground/cmakePlayground/mod1/mod1.h
+stdio.h
+-
+
+/home/tzz/projects/cPlayground/cmakePlayground/mod1/mod1.h
+

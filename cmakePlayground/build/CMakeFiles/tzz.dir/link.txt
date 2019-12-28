@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/tzz.dir/main.o  -o tzz -Wl,-rpath,/home/tzz/projects/cPlayground/cmakePlayground/build/mod1Dir mod1Dir/libtzzMod1.so 

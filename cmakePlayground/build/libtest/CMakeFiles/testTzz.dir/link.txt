@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC   -shared -Wl,-soname,libtestTzz.so -o libtestTzz.so CMakeFiles/testTzz.dir/test.o libmod2/libmod2.a 

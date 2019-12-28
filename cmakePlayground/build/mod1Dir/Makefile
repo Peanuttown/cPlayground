@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles /home/tzz/projects/cPlayground/cmakePlayground/build/mod1Dir/CMakeFiles/progress.marks
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f CMakeFiles/Makefile2 mod1Dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f CMakeFiles/Makefile2 mod1Dir/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,59 +97,48 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f CMakeFiles/Makefile2 mod1Dir/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f CMakeFiles/Makefile2 mod1Dir/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named tzz
+# Convenience name for target.
+mod1Dir/CMakeFiles/tzzMod1.dir/rule:
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f CMakeFiles/Makefile2 mod1Dir/CMakeFiles/tzzMod1.dir/rule
+.PHONY : mod1Dir/CMakeFiles/tzzMod1.dir/rule
 
-# Build rule for target.
-tzz: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tzz
-.PHONY : tzz
+# Convenience name for target.
+tzzMod1: mod1Dir/CMakeFiles/tzzMod1.dir/rule
 
-# fast build rule for target.
-tzz/fast:
-	$(MAKE) -f CMakeFiles/tzz.dir/build.make CMakeFiles/tzz.dir/build
-.PHONY : tzz/fast
-
-#=============================================================================
-# Target rules for targets named tzzMod1
-
-# Build rule for target.
-tzzMod1: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tzzMod1
 .PHONY : tzzMod1
 
 # fast build rule for target.
 tzzMod1/fast:
-	$(MAKE) -f mod1Dir/CMakeFiles/tzzMod1.dir/build.make mod1Dir/CMakeFiles/tzzMod1.dir/build
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f mod1Dir/CMakeFiles/tzzMod1.dir/build.make mod1Dir/CMakeFiles/tzzMod1.dir/build
 .PHONY : tzzMod1/fast
 
 # target to build an object file
-main.o:
-	$(MAKE) -f CMakeFiles/tzz.dir/build.make CMakeFiles/tzz.dir/main.o
-.PHONY : main.o
+mod1.o:
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f mod1Dir/CMakeFiles/tzzMod1.dir/build.make mod1Dir/CMakeFiles/tzzMod1.dir/mod1.o
+.PHONY : mod1.o
 
 # target to preprocess a source file
-main.i:
-	$(MAKE) -f CMakeFiles/tzz.dir/build.make CMakeFiles/tzz.dir/main.i
-.PHONY : main.i
+mod1.i:
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f mod1Dir/CMakeFiles/tzzMod1.dir/build.make mod1Dir/CMakeFiles/tzzMod1.dir/mod1.i
+.PHONY : mod1.i
 
 # target to generate assembly for a file
-main.s:
-	$(MAKE) -f CMakeFiles/tzz.dir/build.make CMakeFiles/tzz.dir/main.s
-.PHONY : main.s
+mod1.s:
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(MAKE) -f mod1Dir/CMakeFiles/tzzMod1.dir/build.make mod1Dir/CMakeFiles/tzzMod1.dir/mod1.s
+.PHONY : mod1.s
 
 # Help Target
 help:
@@ -158,12 +147,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... tzz"
-	@echo "... edit_cache"
 	@echo "... tzzMod1"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... edit_cache"
+	@echo "... mod1.o"
+	@echo "... mod1.i"
+	@echo "... mod1.s"
 .PHONY : help
 
 
@@ -175,6 +163,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/tzz/projects/cPlayground/cmakePlayground/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

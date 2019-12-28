@@ -60,152 +60,94 @@ CMAKE_SOURCE_DIR = /home/tzz/projects/cPlayground/cmakePlayground
 CMAKE_BINARY_DIR = /home/tzz/projects/cPlayground/cmakePlayground/build
 
 #=============================================================================
-# Target rules for target CMakeFiles/sdlTest.dir
+# Target rules for target CMakeFiles/tzz.dir
 
 # All Build rule for target.
-CMakeFiles/sdlTest.dir/all: libtest/CMakeFiles/testTzz.dir/all
-CMakeFiles/sdlTest.dir/all: libtest/libmod2/CMakeFiles/mod2.dir/all
-	$(MAKE) -f CMakeFiles/sdlTest.dir/build.make CMakeFiles/sdlTest.dir/depend
-	$(MAKE) -f CMakeFiles/sdlTest.dir/build.make CMakeFiles/sdlTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles --progress-num=3,4 "Built target sdlTest"
-.PHONY : CMakeFiles/sdlTest.dir/all
+CMakeFiles/tzz.dir/all: mod1Dir/CMakeFiles/tzzMod1.dir/all
+	$(MAKE) -f CMakeFiles/tzz.dir/build.make CMakeFiles/tzz.dir/depend
+	$(MAKE) -f CMakeFiles/tzz.dir/build.make CMakeFiles/tzz.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles --progress-num=1,2 "Built target tzz"
+.PHONY : CMakeFiles/tzz.dir/all
 
 # Include target in all.
-all: CMakeFiles/sdlTest.dir/all
+all: CMakeFiles/tzz.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/sdlTest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sdlTest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles 0
-.PHONY : CMakeFiles/sdlTest.dir/rule
-
-# Convenience name for target.
-sdlTest: CMakeFiles/sdlTest.dir/rule
-
-.PHONY : sdlTest
-
-# clean rule for target.
-CMakeFiles/sdlTest.dir/clean:
-	$(MAKE) -f CMakeFiles/sdlTest.dir/build.make CMakeFiles/sdlTest.dir/clean
-.PHONY : CMakeFiles/sdlTest.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/sdlTest.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory libtest
-
-# Convenience name for "all" pass in the directory.
-libtest/all: libtest/CMakeFiles/testTzz.dir/all
-libtest/all: libtest/libmod2/all
-
-.PHONY : libtest/all
-
-# Convenience name for "clean" pass in the directory.
-libtest/clean: libtest/CMakeFiles/testTzz.dir/clean
-libtest/clean: libtest/libmod2/clean
-
-.PHONY : libtest/clean
-
-# Convenience name for "preinstall" pass in the directory.
-libtest/preinstall: libtest/libmod2/preinstall
-
-.PHONY : libtest/preinstall
-
-#=============================================================================
-# Target rules for target libtest/CMakeFiles/testTzz.dir
-
-# All Build rule for target.
-libtest/CMakeFiles/testTzz.dir/all: libtest/libmod2/CMakeFiles/mod2.dir/all
-	$(MAKE) -f libtest/CMakeFiles/testTzz.dir/build.make libtest/CMakeFiles/testTzz.dir/depend
-	$(MAKE) -f libtest/CMakeFiles/testTzz.dir/build.make libtest/CMakeFiles/testTzz.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles --progress-num=5,6 "Built target testTzz"
-.PHONY : libtest/CMakeFiles/testTzz.dir/all
-
-# Include target in all.
-all: libtest/CMakeFiles/testTzz.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-libtest/CMakeFiles/testTzz.dir/rule: cmake_check_build_system
+CMakeFiles/tzz.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles 4
-	$(MAKE) -f CMakeFiles/Makefile2 libtest/CMakeFiles/testTzz.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tzz.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles 0
-.PHONY : libtest/CMakeFiles/testTzz.dir/rule
+.PHONY : CMakeFiles/tzz.dir/rule
 
 # Convenience name for target.
-testTzz: libtest/CMakeFiles/testTzz.dir/rule
+tzz: CMakeFiles/tzz.dir/rule
 
-.PHONY : testTzz
-
-# clean rule for target.
-libtest/CMakeFiles/testTzz.dir/clean:
-	$(MAKE) -f libtest/CMakeFiles/testTzz.dir/build.make libtest/CMakeFiles/testTzz.dir/clean
-.PHONY : libtest/CMakeFiles/testTzz.dir/clean
+.PHONY : tzz
 
 # clean rule for target.
-clean: libtest/CMakeFiles/testTzz.dir/clean
+CMakeFiles/tzz.dir/clean:
+	$(MAKE) -f CMakeFiles/tzz.dir/build.make CMakeFiles/tzz.dir/clean
+.PHONY : CMakeFiles/tzz.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/tzz.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory libtest/libmod2
+# Directory level rules for directory mod1Dir
 
 # Convenience name for "all" pass in the directory.
-libtest/libmod2/all: libtest/libmod2/CMakeFiles/mod2.dir/all
+mod1Dir/all: mod1Dir/CMakeFiles/tzzMod1.dir/all
 
-.PHONY : libtest/libmod2/all
+.PHONY : mod1Dir/all
 
 # Convenience name for "clean" pass in the directory.
-libtest/libmod2/clean: libtest/libmod2/CMakeFiles/mod2.dir/clean
+mod1Dir/clean: mod1Dir/CMakeFiles/tzzMod1.dir/clean
 
-.PHONY : libtest/libmod2/clean
+.PHONY : mod1Dir/clean
 
 # Convenience name for "preinstall" pass in the directory.
-libtest/libmod2/preinstall:
+mod1Dir/preinstall:
 
-.PHONY : libtest/libmod2/preinstall
+.PHONY : mod1Dir/preinstall
 
 #=============================================================================
-# Target rules for target libtest/libmod2/CMakeFiles/mod2.dir
+# Target rules for target mod1Dir/CMakeFiles/tzzMod1.dir
 
 # All Build rule for target.
-libtest/libmod2/CMakeFiles/mod2.dir/all:
-	$(MAKE) -f libtest/libmod2/CMakeFiles/mod2.dir/build.make libtest/libmod2/CMakeFiles/mod2.dir/depend
-	$(MAKE) -f libtest/libmod2/CMakeFiles/mod2.dir/build.make libtest/libmod2/CMakeFiles/mod2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles --progress-num=1,2 "Built target mod2"
-.PHONY : libtest/libmod2/CMakeFiles/mod2.dir/all
+mod1Dir/CMakeFiles/tzzMod1.dir/all:
+	$(MAKE) -f mod1Dir/CMakeFiles/tzzMod1.dir/build.make mod1Dir/CMakeFiles/tzzMod1.dir/depend
+	$(MAKE) -f mod1Dir/CMakeFiles/tzzMod1.dir/build.make mod1Dir/CMakeFiles/tzzMod1.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles --progress-num=3,4 "Built target tzzMod1"
+.PHONY : mod1Dir/CMakeFiles/tzzMod1.dir/all
 
 # Include target in all.
-all: libtest/libmod2/CMakeFiles/mod2.dir/all
+all: mod1Dir/CMakeFiles/tzzMod1.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-libtest/libmod2/CMakeFiles/mod2.dir/rule: cmake_check_build_system
+mod1Dir/CMakeFiles/tzzMod1.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 libtest/libmod2/CMakeFiles/mod2.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 mod1Dir/CMakeFiles/tzzMod1.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tzz/projects/cPlayground/cmakePlayground/build/CMakeFiles 0
-.PHONY : libtest/libmod2/CMakeFiles/mod2.dir/rule
+.PHONY : mod1Dir/CMakeFiles/tzzMod1.dir/rule
 
 # Convenience name for target.
-mod2: libtest/libmod2/CMakeFiles/mod2.dir/rule
+tzzMod1: mod1Dir/CMakeFiles/tzzMod1.dir/rule
 
-.PHONY : mod2
-
-# clean rule for target.
-libtest/libmod2/CMakeFiles/mod2.dir/clean:
-	$(MAKE) -f libtest/libmod2/CMakeFiles/mod2.dir/build.make libtest/libmod2/CMakeFiles/mod2.dir/clean
-.PHONY : libtest/libmod2/CMakeFiles/mod2.dir/clean
+.PHONY : tzzMod1
 
 # clean rule for target.
-clean: libtest/libmod2/CMakeFiles/mod2.dir/clean
+mod1Dir/CMakeFiles/tzzMod1.dir/clean:
+	$(MAKE) -f mod1Dir/CMakeFiles/tzzMod1.dir/build.make mod1Dir/CMakeFiles/tzzMod1.dir/clean
+.PHONY : mod1Dir/CMakeFiles/tzzMod1.dir/clean
+
+# clean rule for target.
+clean: mod1Dir/CMakeFiles/tzzMod1.dir/clean
 
 .PHONY : clean
 

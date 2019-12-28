@@ -1,5 +1,6 @@
-#include "test/test.h"
+#include "mod1/mod1.h"
+
 int main(){
-	testPrint();
+	mod1Print();
 	return 0;
 }

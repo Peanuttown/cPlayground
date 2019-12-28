@@ -11,8 +11,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.10.2/CMakeCCompiler.cmake"
   "CMakeFiles/3.10.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.10.2/CMakeSystem.cmake"
-  "../mod2/CMakeLists.txt"
-  "../test/CMakeLists.txt"
+  "../mod1/CMakeLists.txt"
   "/usr/share/cmake-3.10/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.10/Modules/CMakeCXXInformation.cmake"
   "/usr/share/cmake-3.10/Modules/CMakeCommonLanguageInclude.cmake"
@@ -40,13 +39,11 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "libtest/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "libtest/libmod2/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "mod1Dir/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/sdlTest.dir/DependInfo.cmake"
-  "libtest/CMakeFiles/testTzz.dir/DependInfo.cmake"
-  "libtest/libmod2/CMakeFiles/mod2.dir/DependInfo.cmake"
+  "CMakeFiles/tzz.dir/DependInfo.cmake"
+  "mod1Dir/CMakeFiles/tzzMod1.dir/DependInfo.cmake"
   )
