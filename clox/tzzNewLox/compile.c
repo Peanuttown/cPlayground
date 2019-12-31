@@ -118,7 +118,7 @@ static void string(Compiler* compiler){
 
 const ParseRule rules[]={
 	{NULL,NULL,PREC_NONE},//TOKEN_EOF,
-	{NULL,NULL,PREC_NONE},//TOKEN_IDENTIFIER,
+	{NULL,NULL,PREC_NONE},//TOKEN_IDENTIFIER, //todo infix rule
 	{NULL,NULL,PREC_NONE},//TOKEN_THIS,
 	{NULL,NULL,PREC_NONE},//TOKEN_FOR,
 	{NULL,NULL,PREC_NONE},//TOKEN_FUNC,
