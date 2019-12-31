@@ -10,6 +10,7 @@ set(src_list
 	array.c
 	value.c
 	debug.c
+	table.c
 	)
 add_compile_options(-g)
 add_executable(lox ${src_list})

@@ -26,7 +26,7 @@ typedef struct{
 	Scanner* scanner;
 	Token currentToken;
 	Token previousToken;
-	Table strings;
+	Table* strings;
 }Compiler;
 
 typedef void(*ParseFn)(Compiler* compiler);
@@ -39,9 +39,11 @@ typedef struct{
 
 
 
-static void compilerInit(Compiler* compiler,Scanner* scanner){
+static void compilerInit(Compiler* compiler,Scanner* scanner,Table* strings){
 	compiler->scanner = scanner;
 	compiler->function =newFunction();
+	compiler->strings = strings;
+
 }
 
 static Chunk* getChunk(Compiler* compiler){
@@ -110,8 +112,8 @@ void binary(Compiler* compiler){
 
 static void string(Compiler* compiler){
 	Token stringToken = compiler->previousToken;
-	copyString(compiler);
-
+	ObjString* str = copyString(compiler->strings,&stringToken.name[1],stringToken.length-2);
+	emitConstant(compiler,OBJ_VAL(str));
 }
 
 const ParseRule rules[]={
@@ -137,6 +139,7 @@ const ParseRule rules[]={
 	{NULL,NULL,PREC_NONE},//TOKEN_PRINT
 	{NULL,NULL,PREC_NONE},//TOKEN_SEMICOLON
 	{string,NULL,PREC_PRIMARY},//TOKEN_STRING
+	{NULL,NULL,PREC_NONE},//TOKEN_VAR
 };
 
 static ParseRule getRule(TokenType type){
@@ -195,14 +198,47 @@ static void statement(Compiler* compiler){
 	}
 }
 
+static uint8_t makeConstant(Compiler* compiler,Value value){
+	return arrayWrite(&compiler->function->chunk.constants,&value);
+}
+
+static uint8_t parseVariable(Compiler* compiler){
+	consume(compiler,TOKEN_IDENTIFIER,"Expect variable name");
+	Token idetifier = compiler->previousToken;
+	return makeConstant(compiler,OBJ_VAL(copyString(compiler->strings,idetifier.name,idetifier.length)));
+}
+
+static void defineVariable(Compiler* compiler,uint8_t offset){
+	emitByte(compiler,OP_DEFINE_GLOBAL);
+	emitByte(compiler,offset);
+}
+
+static void varDecl(Compiler* compiler){
+	//parse variable name ,push the name to constants
+	uint8_t identiferOffset = parseVariable(compiler);
+
+	//parse expression;
+	if (match(compiler,TOKEN_EQUAL)){
+		expression(compiler);
+	}else{
+		emitByte(compiler,OP_NIL);
+	}
+	defineVariable(compiler,identiferOffset);
+	consume(compiler,TOKEN_SEMICOLON,"Expect ';' after statement");
+}
+
+
 static void declaration(Compiler* compiler){
+	if (match(compiler,TOKEN_VAR)){
+		varDecl(compiler);
+	}
 	statement(compiler);
 }
 
 
-ObjFunction* compileHelper(Scanner* scanner){
+ObjFunction* compileHelper(Scanner* scanner,Table* strings){
 	Compiler compiler;
-	compilerInit(&compiler,scanner);
+	compilerInit(&compiler,scanner,strings);
 	Chunk* chunk = getChunk(&compiler);
 	advance(&compiler);
 	for(;!isEnd(&compiler);){
@@ -214,8 +250,8 @@ ObjFunction* compileHelper(Scanner* scanner){
 }
 
 
-ObjFunction* compile(char* source){
+ObjFunction* compile(char* source,Table* strings){
 	Scanner scanner;
 	scannerInit(&scanner,source);
-	return compileHelper(&scanner);
+	return compileHelper(&scanner,strings);
 }

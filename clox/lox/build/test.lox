@@ -1,8 +1,1 @@
-fun test(){
-	print "here";
-	return 999;
-}
-
-print test();
-print clock();
-
+print 1+1;

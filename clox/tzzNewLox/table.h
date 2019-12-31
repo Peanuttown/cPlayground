@@ -2,7 +2,6 @@
 #define lox_table_h
 
 #include "value.h"
-#include "object.h"
 
 typedef struct{
 	ObjString* key;

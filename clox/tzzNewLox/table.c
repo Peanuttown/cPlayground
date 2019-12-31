@@ -3,6 +3,8 @@
 #include "memory.h"
 #include "string.h"
 #include <stdio.h>
+#include "value.h"
+#include "object.h"
 
 #define TABLE_MAX_LOAD 0.85
 

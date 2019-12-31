@@ -4,10 +4,10 @@
 #include <string.h>
 #include "chunk.h"
 #include <math.h>
-#include "table.h"
 #include <stdlib.h>
 #include "value.h"
 #include "vm.h"
+#include "table.h"
 
 Obj* allocalObj(size_t size,ObjType type){
 	Obj* obj =allocateMemory(NULL,size);
@@ -33,35 +33,34 @@ static int hashString(const char* key,int length){
 
 }
 
-static ObjString* allocateString(VM* vm,char* chars,int length,int hash){
+static ObjString* allocateString(Table* strings,char* chars,int length,int hash){
 	ObjString* obj = (ObjString*)ALLOCATE_OBJ(ObjString,OBJ_STRING);
 	obj->chars = chars;
 	obj->length =length;
 	obj->hash = hash;
-	tableSet(&vm->strings,obj,NIL_VAL);
-	printf("alloctString,%p,%.*s\n",obj,length,chars );
+	tableSet(strings,obj,NIL_VAL);
 	return obj;
 }
 
-ObjString* copyString(VM* vm,const char* chars,int length){
+ObjString* copyString(Table* strings,const char* chars,int length){
 	//find a interning string
 	uint32_t hash = hashString(chars,length);
-	ObjString* interned = tableFindString(&vm->strings,chars,length,hash);
+	ObjString* interned = tableFindString(strings,chars,length,hash);
 	if (interned !=NULL) return interned;
 
 	char* heapChars = ALLOCATE(char,length+1);
 	memcpy(heapChars,chars,length);
 	heapChars[length] = '\0';
 
-	return allocateString(vm,heapChars,length,hash);
+	return allocateString(strings,heapChars,length,hash);
 }
 
-ObjString* takeString(VM* vm,char* chars,int length){
+ObjString* takeString(Table* strings,char* chars,int length){
 	int hash = hashString(chars,length);
-	ObjString* interned = tableFindString(&vm->strings,chars,length,hash);
+	ObjString* interned = tableFindString(strings,chars,length,hash);
 	if (interned != NULL){
 		freeMemory(chars);
 		return interned;
 	}
-	return allocateString(vm,chars,length,hash);
+	return allocateString(strings,chars,length,hash);
 }

@@ -117,6 +117,9 @@ static Token identifierType(Scanner *scanner){
 				 }
 				 break;
 			 }
+		case 'v':{
+				 return keyword(scanner,1,"ar",TOKEN_VAR);
+			 }
 	}
 	return makeToken(scanner,TOKEN_IDENTIFIER);
 }

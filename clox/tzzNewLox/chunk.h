@@ -14,6 +14,7 @@ typedef enum{
 	OP_POP,
 	OP_NIL,
 	OP_PRINT,
+	OP_DEFINE_GLOBAL,
 }OpCode;
 
 typedef struct{
@@ -24,6 +25,6 @@ typedef struct{
 
 void chunkInit(Chunk* chunk);
 void chunkFree(Chunk* chunk);
-int addConstant(Chunk* chunk,Value);
+uint8_t addConstant(Chunk* chunk,Value);
 
 #endif

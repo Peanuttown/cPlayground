@@ -19,6 +19,6 @@ void chunkFree(Chunk* chunk){
 	arrayFree(&chunk->lines);
 }
 
-int addConstant(Chunk* chunk,Value value){
+uint8_t addConstant(Chunk* chunk,Value value){
 	return arrayWrite(&chunk->constants,&value);
 }

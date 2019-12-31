@@ -4,7 +4,7 @@
 #include "memory.h"
 
 #define ARRAY_INDEX(array,index) \
-	(array)->elems+(array)->elemSize*index
+	((array)->elems+((array)->elemSize)*(index))
 
 #define ARRAY_WRITE(array,value,index,type) 
 

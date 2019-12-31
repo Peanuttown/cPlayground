@@ -25,6 +25,7 @@ typedef enum{
 	TOKEN_PRINT,
 	TOKEN_SEMICOLON,
 	TOKEN_STRING,
+	TOKEN_VAR,
 }TokenType;
 
 

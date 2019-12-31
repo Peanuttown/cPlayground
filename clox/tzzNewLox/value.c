@@ -6,7 +6,8 @@
 static void printObj(Obj* obj){
 	switch(obj->type){
 		case (OBJ_STRING):{
-			//todo
+			ObjString* str = (ObjString*)obj;
+			printf("%.*s",str->length,str->chars);
 			break;
 		}
 		case (OBJ_FUNCTION):{

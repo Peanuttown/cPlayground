@@ -13,6 +13,7 @@
 #define AS_NIL(value) (NULL)
 #define AS_OBJ(value) ((value).as.obj)
 #define AS_FUNCTION(value) ((ObjFunction*)(AS_OBJ(value)))
+#define AS_STRING(value) ((ObjString*)AS_OBJ(value))
 
 #define IS_OBJ(value) ((value).type == VAL_OBJ)
 #define IS_NIL(value) ((value).type == VAL_NIL)
@@ -40,6 +41,7 @@ typedef struct{
 }Value;
 
 typedef struct sObjString ObjString;
+typedef struct sObjFunction ObjFunction;
 
 void printValue(Value value);
 

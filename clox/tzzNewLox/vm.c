@@ -9,6 +9,7 @@ void vmInit(VM* vm){
 	vm->stackTop = vm->stack;
 	vm->frameCount = 0;
 	initTable(&vm->strings);
+	initTable(&vm->glboal);
 }
 
 void vmFree(VM* vm){
@@ -111,6 +112,12 @@ InterpretResult run(VM* vm){
 					    push(vm,valueAdd(a,b));
 					    break;
 				    }
+			case OP_DEFINE_GLOBAL:{
+						      int offset = READ_BYTE();
+						      Value value = *(Value*)ARRAY_INDEX(&frame->function->chunk.constants,offset);
+						      tableSet(&vm->glboal,AS_STRING(value),pop(vm));
+						      break;
+					      }
 			case OP_CONSTANT:{
 						 int offset = READ_BYTE();
 						 Value value = *(Value*)(ARRAY_INDEX(&frame->function->chunk.constants,offset));
@@ -123,14 +130,14 @@ InterpretResult run(VM* vm){
 }
 
 InterpretResult interpret(char* source){
-	ObjFunction* function = compile(source);
+	VM vm;
+	vmInit(&vm);
+	ObjFunction* function = compile(source,&vm.strings);
 	if (function == NULL){
 		return INTERPRET_COMPILE_ERR;
 	}
 
 	disassembleChunk(&function->chunk,"main");
-	VM vm;
-	vmInit(&vm);
 	push(&vm,OBJ_VAL(function));
 	callValue(&vm,OBJ_VAL(function),0);
 	return run(&vm);

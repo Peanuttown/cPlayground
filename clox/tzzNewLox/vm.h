@@ -1,10 +1,10 @@
 #ifndef lox_vm_h
 #define lox_vm_h
 
+#include "table.h"
 #include "object.h"
 #include "common.h"
 #include "value.h"
-#include "table.h"
 
 #define FRAME_MAX 64
 #define STACK_MAX (FRAME_MAX*UINT8_MAX)
@@ -29,6 +29,7 @@ typedef struct{
 	Value stack[STACK_MAX];
 	Value* stackTop;
 	Table strings;
+	Table glboal;
 }VM;
 
 void vmInit(VM* vm);
