@@ -215,6 +215,16 @@ Token scanToken(Scanner* scanner){
 		case '}':{
 				 return makeToken(scanner,TOKEN_RIGHT_BRACE);
 			 }
+		case '(':{
+				 return makeToken(scanner,TOKEN_LEFT_PARENTHESE);
+			 }
+		case ')':{
+				 return makeToken(scanner,TOKEN_RIGHT_PARENTHESE);
+			 }
+		case ',':{
+				 return makeToken(scanner,TOKEN_DOT);
+
+			 }
 		default:{
 				//unreachable
 				fprintf(stderr,"Unexpected character %c\n",c);

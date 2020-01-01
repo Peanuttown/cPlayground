@@ -30,39 +30,6 @@ Value pop(VM* vm){
 	return *vm->stackTop;
 }
 
-static bool call(VM* vm,ObjFunction* function,int argc){
-	if (argc!=function->arity){
-		fprintf(stderr,"function arity not match\n");
-		return false;
-	}
-	if (vm->frameCount == FRAME_MAX){
-		fprintf(stderr,"Stack overflow\n");
-		return false;
-	}
-	CallFrame* frame = &vm->callFrames[vm->frameCount++];
-	frame->function = function;
-	frame->ip = (uint8_t*)function->chunk.codes.elems;
-	frame->slots = vm->stackTop -argc-1;
-	return true;
-}
-
-static bool callValue(VM* vm,Value callee,int argc){
-	if (IS_OBJ(callee)){
-		switch(OBJ_TYPE(callee)){
-			case OBJ_FUNCTION:{
-						  return call(vm,AS_FUNCTION(callee),argc);
-					  }
-			default:{
-					fprintf(stderr,"Unexpected callable object type %d\n",OBJ_TYPE(callee));
-					return false;
-				}
-		}
-
-	}else{
-		fprintf(stderr,"callValue:callee is not object");
-		return false;
-	}
-}
 
 
 static CallFrame* getCurrentFrame(VM* vm){
@@ -74,15 +41,45 @@ static CallFrame* getCurrentFrame(VM* vm){
 }
 
 static Value peek(VM* vm,int offset){
-	return vm->stackTop[offset-1];
+	return vm->stackTop[-1-offset];
 }
 
 static void setStack(VM* vm,int offset,Value value){
-	vm->stack[offset] = value;
+	getCurrentFrame(vm)->slots[offset] = value;
 }
 static Value getStack(VM* vm,int offset){
-	return vm->stack[offset];
+	return getCurrentFrame(vm)->slots[offset];
 }
+
+static bool call(VM* vm,ObjFunction* function,int argCount){
+	if (function->arity != argCount){
+		fprintf(stderr,"argCount not match");
+		exit(64);
+	}
+	CallFrame* frame = &vm->callFrames[vm->frameCount++];
+	frame->function = function;
+	frame->ip = function->chunk.codes.elems;
+	frame->slots = vm->stackTop - argCount - 1;
+	return true;
+}
+static bool callValue(VM* vm,Value callee,int argCount){
+	if (IS_OBJ(callee)){
+		switch (OBJ_TYPE(callee)){
+			case OBJ_FUNCTION:{
+						 return call(vm,AS_FUNCTION(callee),argCount);
+					 }
+			default:{
+					break;
+				}
+
+		}
+
+	}
+	fprintf(stderr,"Can only call functions and classes");
+	exit(64);
+	return false;
+}
+
 
 InterpretResult run(VM* vm){
 	CallFrame* frame = getCurrentFrame(vm);
@@ -138,7 +135,7 @@ InterpretResult run(VM* vm){
 						 Value value = *(Value*)(ARRAY_INDEX(&frame->function->chunk.constants,offset));
 						 push(vm,value);
 						 break;
-			    }
+					 }
 			case OP_GET_GLOBAL:{
 						   Value key=READ_CONSTANT();
 						   Value value;
@@ -162,8 +159,15 @@ InterpretResult run(VM* vm){
 						  push(vm,getStack(vm,offset));
 						  break;
 					  }
+			case OP_CALL:{
+					     int argCount = READ_BYTE();
+					     printf("argCount:%d\n",argCount);
+					     callValue(vm,peek(vm,argCount),argCount);
+					     frame = getCurrentFrame(vm);
+					     break;
+				     }
 			default:{
-					fprintf(stderr,"vm run error , Unexpect opcode\n");
+					fprintf(stderr,"vm run error , Unexpect opcode %d\n",instruction);
 					exit(64);
 				}
 		}
@@ -177,7 +181,7 @@ InterpretResult interpret(char* source){
 	if (function == NULL){
 		return INTERPRET_COMPILE_ERR;
 	}
-
+	function->name="main";
 	disassembleChunk(&function->chunk,"main");
 	push(&vm,OBJ_VAL(function));
 	callValue(&vm,OBJ_VAL(function),0);

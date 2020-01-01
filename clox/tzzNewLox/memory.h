@@ -11,5 +11,7 @@ void* allocateMemory(void* oldPtr,size_t newAllocateSize);
 
 void freeMemory(void* ptr);
 
+void* copyCString(char* str,int length);
+
 
 #endif

@@ -23,6 +23,7 @@ struct sObjFunction {
 	Obj obj;
 	Chunk chunk;
 	int arity;
+	char* name;
 };
 
 struct sObjString{

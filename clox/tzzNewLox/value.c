@@ -11,7 +11,8 @@ static void printObj(Obj* obj){
 			break;
 		}
 		case (OBJ_FUNCTION):{
-			//todo
+			ObjFunction* function = (ObjFunction*)obj;
+			printf("func:%s",function->name);
 			break;
 		}
 		default:{

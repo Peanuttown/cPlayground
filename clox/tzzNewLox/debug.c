@@ -74,6 +74,9 @@ static int disassembleInstruction(Chunk* chunk,int offset){
 		case OP_SET_LOCAL:{
 					      return printLocal(chunk,offset,"op_set_local");
 				      }
+		case OP_CALL:{
+				     return printLocal(chunk,offset,"op_call"); 
+			     }
 		default:{
 				fprintf(stderr,"disassembleInstruction error:Unexpect opCode type %d",*instruction);
 				exit(64);

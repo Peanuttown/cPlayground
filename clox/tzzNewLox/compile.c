@@ -27,20 +27,36 @@ typedef struct{
 }Local;
 
 typedef struct{
+	Token previousToken;
+	Token currentToken;
+}Parser;
+
+typedef struct{
 	ObjFunction* function;
 	Scanner* scanner;
-	Token currentToken;
-	Token previousToken;
+	Parser* parser;
 	Table* strings;
 	int localCount;
 	int localDepth;
 	Local locals[UINT8_MAX];
 }Compiler;
 
+ObjFunction* compileHelper(Compiler *compiler);
 static void statement(Compiler* compiler);
 static void declaration(Compiler* compiler);
 static bool isInScope(Compiler* compiler);
 static bool tokenNameEqual(Token a,Token b);
+static bool check(Compiler* compiler,TokenType type);
+static void consume(Compiler* compiler,TokenType type,char* errDesc);
+
+static Token getPreviousToken(Compiler* compiler){
+	return compiler->parser->previousToken;
+}
+
+static Token getCurrentToken(Compiler* compiler){
+	return compiler->parser->currentToken;
+}
+
 
 typedef void(*ParseFn)(Compiler* compiler);
 
@@ -52,8 +68,9 @@ typedef struct{
 
 
 
-static void compilerInit(Compiler* compiler,Scanner* scanner,Table* strings){
+static void compilerInit(Compiler* compiler,Scanner* scanner,Table* strings,Parser* parser){
 	compiler->scanner = scanner;
+	compiler->parser = parser;
 	compiler->function =newFunction();
 	compiler->strings = strings;
 	compiler->localDepth = 0;
@@ -71,16 +88,16 @@ static Chunk* getChunk(Compiler* compiler){
 }
 
 static bool isEnd(Compiler* compiler){
-	return compiler->currentToken.type == TOKEN_EOF;
+	return compiler->parser->currentToken.type == TOKEN_EOF;
 }
 
 static void advance(Compiler* compiler){
-	compiler->previousToken = compiler->currentToken;
-	compiler->currentToken = scanToken(compiler->scanner);
+	compiler->parser->previousToken = compiler->parser->currentToken;
+	compiler->parser->currentToken = scanToken(compiler->scanner);
 }
 
 static bool match(Compiler* compiler,TokenType type){
-	if (compiler->currentToken.type == type){
+	if (getCurrentToken(compiler).type == type){
 		advance(compiler);
 		return true;
 	}
@@ -89,7 +106,7 @@ static bool match(Compiler* compiler,TokenType type){
 
 void emitByte(Compiler* compiler,uint8_t code){
 	arrayWrite(&getChunk(compiler)->codes,&code);
-	arrayWrite(&getChunk(compiler)->lines,&compiler->previousToken.line);;
+	arrayWrite(&getChunk(compiler)->lines,&compiler->parser->previousToken.line);;
 }
 
 void emitConstant(Compiler* compiler,Value value){
@@ -103,13 +120,13 @@ static ParseRule getRule(TokenType type);
 static void parsePrecedence(Compiler* compiler,Precedence precedence);
 
 void number(Compiler *compiler){
-	Token numberToken = compiler->previousToken;
+	Token numberToken = getPreviousToken(compiler);
 	double value = strtod(numberToken.name,NULL);
 	emitConstant(compiler,NUMBER_VAL(value));
 }
 
 void binary(Compiler* compiler){
-	Token operator = compiler->previousToken;
+	Token operator = getPreviousToken(compiler);
 
 	//parse right operand
 	ParseRule rule = getRule(operator.type);
@@ -134,7 +151,7 @@ static void expression(Compiler* compiler);
 static uint8_t makeConstant(Compiler* compiler,Value value);
 
 static void string(Compiler* compiler){
-	Token stringToken = compiler->previousToken;
+	Token stringToken = getPreviousToken(compiler);
 	ObjString* str = copyString(compiler->strings,&stringToken.name[1],stringToken.length-2);
 	emitConstant(compiler,OBJ_VAL(str));
 }
@@ -150,7 +167,7 @@ static int findLocalIndex(Compiler* compiler,Token name){
 }
 
 static void variable(Compiler* compiler){
-	Token varName = compiler->previousToken;
+	Token varName = getPreviousToken(compiler);
 	int offset =0;
 	uint8_t opcode;
 	offset = findLocalIndex(compiler,varName);
@@ -172,6 +189,26 @@ static void variable(Compiler* compiler){
 	}
 	emitByte(compiler,opcode);
 	emitByte(compiler,offset);
+}
+
+static int argumentList(Compiler* compiler){
+	int argCount = 0;
+	for(;!isEnd(compiler)&&!check(compiler,TOKEN_RIGHT_PARENTHESE);){
+		expression(compiler);
+		argCount++;
+		if (match(compiler,TOKEN_DOT)){
+			continue;
+		}
+		break;
+	}
+	consume(compiler,TOKEN_RIGHT_PARENTHESE,"expect ')'");
+	return argCount;
+}
+
+static void call(Compiler* compiler){
+	int argCount = argumentList(compiler);
+	emitByte(compiler,OP_CALL);
+	emitByte(compiler,argCount);
 }
 
 const ParseRule rules[]={
@@ -200,6 +237,9 @@ const ParseRule rules[]={
 	{NULL,NULL,PREC_NONE},//TOKEN_VAR
 	{NULL,NULL,PREC_NONE},//TOKEN_LEFT_BRACE
 	{NULL,NULL,PREC_NONE},//TOKEN_RIGHT_BRACE
+	{NULL,call,PREC_CALL},//TOKEN_LEFT_PARENTHESE
+	{NULL,NULL,PREC_NONE},//TOKEN_RIGHT_PARENTHESE
+	{NULL,NULL,PREC_NONE},//TOKEN_DOT
 };
 
 static ParseRule getRule(TokenType type){
@@ -207,21 +247,21 @@ static ParseRule getRule(TokenType type){
 }
 
 static void compileError(Compiler *compiler,char* errDesc){
-	fprintf(stderr,"Compiler error , line [%d],%s\n",compiler->previousToken.line,errDesc);
+	fprintf(stderr,"Compiler error , line [%d],%s\n",compiler->parser->previousToken.line,errDesc);
 	exit(64);
 }
 
 static void parsePrecedence(Compiler* compiler,Precedence precedence){
 	advance(compiler);
-	ParseRule rule = getRule(compiler->previousToken.type);
+	ParseRule rule = getRule(getPreviousToken(compiler).type);
 	if (rule.prefix == NULL){
 		compileError(compiler,"expression prefix is null");
 	}
 	rule.prefix(compiler);
 
-	while(precedence <= getRule(compiler->currentToken.type).precedence){
+	while(precedence <= getRule(getCurrentToken(compiler).type).precedence){
 		advance(compiler);
-		ParseFn infixRule= getRule(compiler->previousToken.type).infix;
+		ParseFn infixRule= getRule(getPreviousToken(compiler).type).infix;
 		infixRule(compiler);
 	}
 }
@@ -263,31 +303,32 @@ static void endScope(Compiler* compiler){
 			if (local->depth == compiler->localDepth){
 				compiler->localCount--;
 				emitByte(compiler,OP_POP);
+				continue;
 			}
-			break;
 		}
+		break;
 	}
 	compiler->localDepth--;
 }
 
 static Token peek(Compiler* compiler){
-	return compiler->currentToken;
+	return getCurrentToken(compiler);
 }
 
 static void block(Compiler* compiler){
-	beginScope(compiler);
 	for (;!isEnd(compiler)&&peek(compiler).type!=TOKEN_RIGHT_BRACE;){
 		declaration(compiler);
 	}
 	consume(compiler,TOKEN_RIGHT_BRACE,"expect '}' ");
-	endScope(compiler);
 }
 
 static void statement(Compiler* compiler){
 	if (match(compiler,TOKEN_PRINT)){
 		printStmt(compiler);
 	}else if(match(compiler,TOKEN_LEFT_BRACE)){
+		beginScope(compiler);
 		block(compiler);
+		endScope(compiler);
 	}else{
 		exprStmt(compiler);
 	}
@@ -330,14 +371,14 @@ static uint8_t parseVariable(Compiler* compiler){
 	consume(compiler,TOKEN_IDENTIFIER,"Expect variable name");
 	if (isInScope(compiler)) {
 		//check variable redecalrae
-		if (checkLocalRedeclare(compiler,compiler->previousToken)){
+		if (checkLocalRedeclare(compiler,getPreviousToken(compiler))){
 			fprintf(stderr,"varaiable redeclare\n");
 			exit(64);
 		}
-		addLocal(compiler,compiler->previousToken);
+		addLocal(compiler,getPreviousToken(compiler));
 		return 0;
 	}
-	Token idetifier = compiler->previousToken;
+	Token idetifier = getPreviousToken(compiler);
 	return makeConstant(compiler,OBJ_VAL(copyString(compiler->strings,idetifier.name,idetifier.length)));
 }
 
@@ -364,32 +405,74 @@ static void varDecl(Compiler* compiler){
 	consume(compiler,TOKEN_SEMICOLON,"Expect ';' after statement");
 }
 
+static bool check(Compiler* compiler,TokenType type){
+	return peek(compiler).type == type;
+}
+
+static ObjFunction* function(Compiler* compiler){
+	//parse args
+	Compiler compilerNext;
+	compilerInit(&compilerNext,compiler->scanner,compiler->strings,compiler->parser);;
+	Token funcName = getPreviousToken(&compilerNext);
+	consume(&compilerNext,TOKEN_LEFT_PARENTHESE,"expect '(' after function name");
+	int arity =0;
+	beginScope(&compilerNext);
+	for(;!isEnd(&compilerNext)&&!check(&compilerNext,TOKEN_RIGHT_PARENTHESE);){
+		arity ++;
+		int varibleOffset = parseVariable(&compilerNext);
+		defineVariable(&compilerNext,varibleOffset);
+		if (match(&compilerNext,TOKEN_DOT)){
+			continue;
+		}
+	}
+	consume(&compilerNext,TOKEN_RIGHT_PARENTHESE,"Expect ')' after args");
+	consume(&compilerNext,TOKEN_LEFT_BRACE,"Expect '{'");
+	block(&compilerNext);
+	ObjFunction* function = compilerNext.function;
+	function->name = copyCString(funcName.name,funcName.length); 
+	function->arity =arity;
+	emitByte(&compilerNext,OP_NIL);
+	emitByte(&compilerNext,OP_RETURN);
+	endScope(&compilerNext);
+	return function;
+}
+
+
+static void funcDecl(Compiler* compiler){
+	int funcNameOffset = parseVariable(compiler);
+	ObjFunction* func = function(compiler);
+	emitConstant(compiler,OBJ_VAL(func));
+	defineVariable(compiler,funcNameOffset);
+}
 
 static void declaration(Compiler* compiler){
 	if (match(compiler,TOKEN_VAR)){
 		varDecl(compiler);
+	}else if(match(compiler,TOKEN_FUNC)){
+		funcDecl(compiler);
 	}else{
 		statement(compiler);
 	}
 }
 
 
-ObjFunction* compileHelper(Scanner* scanner,Table* strings){
-	Compiler compiler;
-	compilerInit(&compiler,scanner,strings);
-	Chunk* chunk = getChunk(&compiler);
-	advance(&compiler);
-	for(;!isEnd(&compiler);){
-		declaration(&compiler);
+ObjFunction* compileHelper(Compiler *compiler){
+	Chunk* chunk = getChunk(compiler);
+	advance(compiler);
+	for(;!isEnd(compiler);){
+		declaration(compiler);
 	}
-	emitByte(&compiler,OP_NIL);
-	emitByte(&compiler,OP_RETURN);
-	return compiler.function;
+	emitByte(compiler,OP_NIL);
+	emitByte(compiler,OP_RETURN);
+	return compiler->function;
 }
 
 
 ObjFunction* compile(char* source,Table* strings){
 	Scanner scanner;
 	scannerInit(&scanner,source);
-	return compileHelper(&scanner,strings);
+	Parser parser;
+	Compiler compiler;
+	compilerInit(&compiler,&scanner,strings,&parser);
+	return compileHelper(&compiler);
 }

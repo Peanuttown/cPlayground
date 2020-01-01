@@ -18,6 +18,7 @@
 #define IS_OBJ(value) ((value).type == VAL_OBJ)
 #define IS_NIL(value) ((value).type == VAL_NIL)
 #define IS_NUMBER(value) ((value).type == VAL_NUMBER)
+#define IS_FUNCTION(value) (AS_OBJ(value)->type == OBJ_FUNCTION)
 #define OBJ_TYPE(value) (AS_OBJ((value))->type)
 
 
