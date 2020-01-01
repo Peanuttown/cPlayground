@@ -77,6 +77,13 @@ static Value peek(VM* vm,int offset){
 	return vm->stackTop[offset-1];
 }
 
+static void setStack(VM* vm,int offset,Value value){
+	vm->stack[offset] = value;
+}
+static Value getStack(VM* vm,int offset){
+	return vm->stack[offset];
+}
+
 InterpretResult run(VM* vm){
 	CallFrame* frame = getCurrentFrame(vm);
 
@@ -85,6 +92,7 @@ InterpretResult run(VM* vm){
 	*(Value*)(ARRAY_INDEX(&frame->function->chunk.constants,(READ_BYTE())))
 
 	for(;;){
+		disassembleStack(vm);
 		uint8_t instruction = READ_BYTE();
 		switch (instruction){
 			case OP_RETURN:{
@@ -144,6 +152,16 @@ InterpretResult run(VM* vm){
 						   tableSet(&vm->global,AS_STRING(key),value);
 						   break;
 					   }
+			case OP_SET_LOCAL:{
+						  int offset = READ_BYTE();
+						  setStack(vm,offset,peek(vm,0));
+						  break;
+					  }
+			case OP_GET_LOCAL:{
+						  int offset = READ_BYTE();
+						  push(vm,getStack(vm,offset));
+						  break;
+					  }
 			default:{
 					fprintf(stderr,"vm run error , Unexpect opcode\n");
 					exit(64);

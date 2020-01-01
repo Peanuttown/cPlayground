@@ -22,15 +22,25 @@ typedef enum{
 }Precedence;
 
 typedef struct{
+	Token name;
+	int depth;
+}Local;
+
+typedef struct{
 	ObjFunction* function;
 	Scanner* scanner;
 	Token currentToken;
 	Token previousToken;
 	Table* strings;
+	int localCount;
+	int localDepth;
+	Local locals[UINT8_MAX];
 }Compiler;
 
 static void statement(Compiler* compiler);
 static void declaration(Compiler* compiler);
+static bool isInScope(Compiler* compiler);
+static bool tokenNameEqual(Token a,Token b);
 
 typedef void(*ParseFn)(Compiler* compiler);
 
@@ -46,7 +56,14 @@ static void compilerInit(Compiler* compiler,Scanner* scanner,Table* strings){
 	compiler->scanner = scanner;
 	compiler->function =newFunction();
 	compiler->strings = strings;
-
+	compiler->localDepth = 0;
+	compiler->localCount = 0;
+	Local local;
+	local.depth=0;
+	Token name;
+	name.name = "";
+	local.name=name;
+	compiler->locals[compiler->localCount++] =local;
 }
 
 static Chunk* getChunk(Compiler* compiler){
@@ -122,18 +139,39 @@ static void string(Compiler* compiler){
 	emitConstant(compiler,OBJ_VAL(str));
 }
 
+static int findLocalIndex(Compiler* compiler,Token name){
+	for (int index =compiler->localCount-1;index >=0;index--){
+		Local* local = &compiler->locals[index];
+		if (tokenNameEqual(name,local->name)&&&local->depth>0){
+			return index;
+		}
+	}
+	return -1;
+}
+
 static void variable(Compiler* compiler){
 	Token varName = compiler->previousToken;
-	if (match(compiler,TOKEN_EQUAL)){//set global;
-		expression(compiler);
-		int offset =makeConstant(compiler,OBJ_VAL(copyString(compiler->strings,varName.name,varName.length)));
-		emitByte(compiler,OP_SET_GLOBAL);
-		emitByte(compiler,offset);
+	int offset =0;
+	uint8_t opcode;
+	offset = findLocalIndex(compiler,varName);
+	if (isInScope(compiler)&&offset != -1)  { 
+		if (match(compiler,TOKEN_EQUAL)){
+			expression(compiler);
+			opcode = OP_SET_LOCAL;
+		}else{
+			opcode =OP_GET_LOCAL;
+		}
 	}else{
-		int offset =makeConstant(compiler,OBJ_VAL(copyString(compiler->strings,varName.name,varName.length)));
-		emitByte(compiler,OP_GET_GLOBAL);
-		emitByte(compiler,offset);
+		if (match(compiler,TOKEN_EQUAL)){//set global;
+			expression(compiler);
+			opcode = OP_SET_GLOBAL;
+		}else{
+			opcode = OP_GET_GLOBAL;
+		}
+		offset =makeConstant(compiler,OBJ_VAL(copyString(compiler->strings,varName.name,varName.length)));
 	}
+	emitByte(compiler,opcode);
+	emitByte(compiler,offset);
 }
 
 const ParseRule rules[]={
@@ -215,22 +253,33 @@ static void printStmt(Compiler* compiler){
 
 
 static void beginScope(Compiler* compiler){
-
+	compiler->localDepth++;
 }
 
 static void endScope(Compiler* compiler){
-
+	for (;compiler->localCount>0;){
+		Local* local = &compiler->locals[compiler->localCount-1];
+		if (local->depth >0){
+			if (local->depth == compiler->localDepth){
+				compiler->localCount--;
+				emitByte(compiler,OP_POP);
+			}
+			break;
+		}
+	}
+	compiler->localDepth--;
 }
 
 static Token peek(Compiler* compiler){
-	return compiler->previousToken;
+	return compiler->currentToken;
 }
 
 static void block(Compiler* compiler){
 	beginScope(compiler);
-	for (;isEnd(compiler)&&peek(compiler).type!=TOKEN_RIGHT_BRACE;){
+	for (;!isEnd(compiler)&&peek(compiler).type!=TOKEN_RIGHT_BRACE;){
 		declaration(compiler);
 	}
+	consume(compiler,TOKEN_RIGHT_BRACE,"expect '}' ");
 	endScope(compiler);
 }
 
@@ -248,15 +297,57 @@ static uint8_t makeConstant(Compiler* compiler,Value value){
 	return arrayWrite(&compiler->function->chunk.constants,&value);
 }
 
+static bool isInScope(Compiler *compiler){
+	return compiler->localDepth > 0;
+}
+
+static void addLocal(Compiler* compiler,Token name){
+	Local* local = &compiler->locals[compiler->localCount];
+	local->name = name;
+	local->depth = compiler->localDepth;
+	compiler->localCount++;
+}
+
+static bool tokenNameEqual(Token a,Token b){
+	return (a.length==b.length &&memcmp(a.name,b.name,a.length)==0);
+}
+
+static bool checkLocalRedeclare(Compiler* compiler,Token name){
+	for (int index =compiler->localCount-1;index>=0;index--){
+		Local* local = &compiler->locals[index];
+		if ((local->depth) < compiler->localDepth){
+			return false;
+		}
+		if (tokenNameEqual(name,local->name)){
+			return true;
+		}
+	}
+	return false;
+
+}
+
 static uint8_t parseVariable(Compiler* compiler){
 	consume(compiler,TOKEN_IDENTIFIER,"Expect variable name");
+	if (isInScope(compiler)) {
+		//check variable redecalrae
+		if (checkLocalRedeclare(compiler,compiler->previousToken)){
+			fprintf(stderr,"varaiable redeclare\n");
+			exit(64);
+		}
+		addLocal(compiler,compiler->previousToken);
+		return 0;
+	}
 	Token idetifier = compiler->previousToken;
 	return makeConstant(compiler,OBJ_VAL(copyString(compiler->strings,idetifier.name,idetifier.length)));
 }
 
 static void defineVariable(Compiler* compiler,uint8_t offset){
-	emitByte(compiler,OP_DEFINE_GLOBAL);
-	emitByte(compiler,offset);
+	if (isInScope(compiler)){
+		return;
+	}else{
+		emitByte(compiler,OP_DEFINE_GLOBAL);
+		emitByte(compiler,offset);
+	}
 }
 
 static void varDecl(Compiler* compiler){

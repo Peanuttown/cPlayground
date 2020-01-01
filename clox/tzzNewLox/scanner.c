@@ -209,6 +209,12 @@ Token scanToken(Scanner* scanner){
 		case '"':{
 				 return string(scanner);
 			 }
+		case '{':{
+				 return makeToken(scanner,TOKEN_LEFT_BRACE);
+			 }
+		case '}':{
+				 return makeToken(scanner,TOKEN_RIGHT_BRACE);
+			 }
 		default:{
 				//unreachable
 				fprintf(stderr,"Unexpected character %c\n",c);

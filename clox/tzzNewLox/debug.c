@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include "chunk.h"
 #include "array.h"
+#include "vm.h"
+#include "value.h"
 
 static int getChunkLine(Chunk* chunk,int offset){
 	return (*(int*)ARRAY_INDEX(&chunk->lines,offset));
@@ -18,6 +20,12 @@ static int constantInstruction(Chunk* chunk,int offset,char* name){
 	printf("%-16s  %4d ",name,constant);
 	printValue(*(Value*)(ARRAY_INDEX(&chunk->constants,constant)));
 	printf("\n");
+	return offset+2;
+}
+
+static int printLocal(Chunk* chunk,int offset ,char* name){
+	uint8_t constant = *(uint8_t*)ARRAY_INDEX(&chunk->codes,offset+1);
+	printf("%-16s  %4d ",name,constant);
 	return offset+2;
 }
 
@@ -60,6 +68,12 @@ static int disassembleInstruction(Chunk* chunk,int offset){
 		case OP_GET_GLOBAL:{
 					      return constantInstruction(chunk,offset,"op_get_global");
 				      }
+		case OP_GET_LOCAL:{
+					      return printLocal(chunk,offset,"op_get_local");
+				      }
+		case OP_SET_LOCAL:{
+					      return printLocal(chunk,offset,"op_set_local");
+				      }
 		default:{
 				fprintf(stderr,"disassembleInstruction error:Unexpect opCode type %d",*instruction);
 				exit(64);
@@ -73,5 +87,14 @@ void disassembleChunk(Chunk* chunk,char* name){
 	for(int count = 0;count < arrayGetCount(&chunk->codes);){
 		count =disassembleInstruction(chunk,count);
 	}
+}
 
+void disassembleStack(VM* vm){
+	printf("stack:");
+	for (Value* value = vm->stack;value<vm->stackTop;value++){
+		printf(" [");
+		printValue(*value);
+		printf("] ");
+	}
+	printf("\n");
 }
