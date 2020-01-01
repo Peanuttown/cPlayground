@@ -54,6 +54,12 @@ static int disassembleInstruction(Chunk* chunk,int offset){
 		case OP_DEFINE_GLOBAL:{
 					      return constantInstruction(chunk,offset,"op_define_global");
 				      }
+		case OP_SET_GLOBAL:{
+					      return constantInstruction(chunk,offset,"op_set_global");
+				      }
+		case OP_GET_GLOBAL:{
+					      return constantInstruction(chunk,offset,"op_get_global");
+				      }
 		default:{
 				fprintf(stderr,"disassembleInstruction error:Unexpect opCode type %d",*instruction);
 				exit(64);

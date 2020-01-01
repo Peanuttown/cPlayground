@@ -9,7 +9,7 @@ void vmInit(VM* vm){
 	vm->stackTop = vm->stack;
 	vm->frameCount = 0;
 	initTable(&vm->strings);
-	initTable(&vm->glboal);
+	initTable(&vm-> global);
 }
 
 void vmFree(VM* vm){
@@ -73,10 +73,17 @@ static CallFrame* getCurrentFrame(VM* vm){
 	return &vm->callFrames[vm->frameCount-1];
 }
 
+static Value peek(VM* vm,int offset){
+	return vm->stackTop[offset-1];
+}
+
 InterpretResult run(VM* vm){
 	CallFrame* frame = getCurrentFrame(vm);
 
 #define READ_BYTE() (*frame->ip++)
+#define READ_CONSTANT() \
+	*(Value*)(ARRAY_INDEX(&frame->function->chunk.constants,(READ_BYTE())))
+
 	for(;;){
 		uint8_t instruction = READ_BYTE();
 		switch (instruction){
@@ -115,7 +122,7 @@ InterpretResult run(VM* vm){
 			case OP_DEFINE_GLOBAL:{
 						      int offset = READ_BYTE();
 						      Value value = *(Value*)ARRAY_INDEX(&frame->function->chunk.constants,offset);
-						      tableSet(&vm->glboal,AS_STRING(value),pop(vm));
+						      tableSet(&vm-> global,AS_STRING(value),pop(vm));
 						      break;
 					      }
 			case OP_CONSTANT:{
@@ -124,7 +131,23 @@ InterpretResult run(VM* vm){
 						 push(vm,value);
 						 break;
 			    }
-
+			case OP_GET_GLOBAL:{
+						   Value key=READ_CONSTANT();
+						   Value value;
+						   tableGet(&vm-> global,AS_STRING(key),&value);
+						   push(vm,value);
+						   break;
+					   }
+			case OP_SET_GLOBAL:{
+						   Value key=READ_CONSTANT();
+						   Value value = peek(vm,0);
+						   tableSet(&vm->global,AS_STRING(key),value);
+						   break;
+					   }
+			default:{
+					fprintf(stderr,"vm run error , Unexpect opcode\n");
+					exit(64);
+				}
 		}
 	}
 }

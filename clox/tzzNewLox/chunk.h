@@ -15,6 +15,8 @@ typedef enum{
 	OP_NIL,
 	OP_PRINT,
 	OP_DEFINE_GLOBAL,
+	OP_GET_GLOBAL,
+	OP_SET_GLOBAL,
 }OpCode;
 
 typedef struct{

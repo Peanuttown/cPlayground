@@ -29,7 +29,7 @@ typedef struct{
 	Value stack[STACK_MAX];
 	Value* stackTop;
 	Table strings;
-	Table glboal;
+	Table global;
 }VM;
 
 void vmInit(VM* vm);

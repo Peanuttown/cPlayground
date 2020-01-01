@@ -29,6 +29,9 @@ typedef struct{
 	Table* strings;
 }Compiler;
 
+static void statement(Compiler* compiler);
+static void declaration(Compiler* compiler);
+
 typedef void(*ParseFn)(Compiler* compiler);
 
 typedef struct{
@@ -110,15 +113,32 @@ void binary(Compiler* compiler){
 }
 
 
+static void expression(Compiler* compiler);
+static uint8_t makeConstant(Compiler* compiler,Value value);
+
 static void string(Compiler* compiler){
 	Token stringToken = compiler->previousToken;
 	ObjString* str = copyString(compiler->strings,&stringToken.name[1],stringToken.length-2);
 	emitConstant(compiler,OBJ_VAL(str));
 }
 
+static void variable(Compiler* compiler){
+	Token varName = compiler->previousToken;
+	if (match(compiler,TOKEN_EQUAL)){//set global;
+		expression(compiler);
+		int offset =makeConstant(compiler,OBJ_VAL(copyString(compiler->strings,varName.name,varName.length)));
+		emitByte(compiler,OP_SET_GLOBAL);
+		emitByte(compiler,offset);
+	}else{
+		int offset =makeConstant(compiler,OBJ_VAL(copyString(compiler->strings,varName.name,varName.length)));
+		emitByte(compiler,OP_GET_GLOBAL);
+		emitByte(compiler,offset);
+	}
+}
+
 const ParseRule rules[]={
 	{NULL,NULL,PREC_NONE},//TOKEN_EOF,
-	{NULL,NULL,PREC_NONE},//TOKEN_IDENTIFIER, //todo infix rule
+	{variable,NULL,PREC_NONE},//TOKEN_IDENTIFIER, 
 	{NULL,NULL,PREC_NONE},//TOKEN_THIS,
 	{NULL,NULL,PREC_NONE},//TOKEN_FOR,
 	{NULL,NULL,PREC_NONE},//TOKEN_FUNC,
@@ -140,6 +160,8 @@ const ParseRule rules[]={
 	{NULL,NULL,PREC_NONE},//TOKEN_SEMICOLON
 	{string,NULL,PREC_PRIMARY},//TOKEN_STRING
 	{NULL,NULL,PREC_NONE},//TOKEN_VAR
+	{NULL,NULL,PREC_NONE},//TOKEN_LEFT_BRACE
+	{NULL,NULL,PREC_NONE},//TOKEN_RIGHT_BRACE
 };
 
 static ParseRule getRule(TokenType type){
@@ -182,6 +204,7 @@ static  void expression(Compiler* compiler){
 static void exprStmt(Compiler* compiler){
 	expression(compiler);
 	emitByte(compiler,OP_POP);
+	consume(compiler,TOKEN_SEMICOLON,"expect ';' after statement");
 }
 
 static void printStmt(Compiler* compiler){
@@ -190,9 +213,32 @@ static void printStmt(Compiler* compiler){
 	consume(compiler,TOKEN_SEMICOLON,"expect ';' after print");
 }
 
+
+static void beginScope(Compiler* compiler){
+
+}
+
+static void endScope(Compiler* compiler){
+
+}
+
+static Token peek(Compiler* compiler){
+	return compiler->previousToken;
+}
+
+static void block(Compiler* compiler){
+	beginScope(compiler);
+	for (;isEnd(compiler)&&peek(compiler).type!=TOKEN_RIGHT_BRACE;){
+		declaration(compiler);
+	}
+	endScope(compiler);
+}
+
 static void statement(Compiler* compiler){
 	if (match(compiler,TOKEN_PRINT)){
 		printStmt(compiler);
+	}else if(match(compiler,TOKEN_LEFT_BRACE)){
+		block(compiler);
 	}else{
 		exprStmt(compiler);
 	}
@@ -231,8 +277,9 @@ static void varDecl(Compiler* compiler){
 static void declaration(Compiler* compiler){
 	if (match(compiler,TOKEN_VAR)){
 		varDecl(compiler);
+	}else{
+		statement(compiler);
 	}
-	statement(compiler);
 }
 
 
