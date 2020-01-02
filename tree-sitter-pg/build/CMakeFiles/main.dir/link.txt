@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/main.dir/main.c.o CMakeFiles/main.dir/tree-sitter-json/src/parser.c.o CMakeFiles/main.dir/home/tzz/projects/cPlayground/clox/tzzNewLox/ioutil.c.o CMakeFiles/main.dir/tree-sitter-go/src/parser.c.o  -o main  -L/home/tzz/projects/cPlayground/tree-sitter-pg -Wl,-rpath,/home/tzz/projects/cPlayground/tree-sitter-pg -ltree-sitter 

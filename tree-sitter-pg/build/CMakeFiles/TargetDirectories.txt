@@ -1,0 +1,3 @@
+/home/tzz/projects/cPlayground/tree-sitter-pg/build/CMakeFiles/rebuild_cache.dir
+/home/tzz/projects/cPlayground/tree-sitter-pg/build/CMakeFiles/main.dir
+/home/tzz/projects/cPlayground/tree-sitter-pg/build/CMakeFiles/edit_cache.dir
